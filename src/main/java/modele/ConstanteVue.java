@@ -9,10 +9,12 @@ public class ConstanteVue {
 
     public static final List<String> LIST_NOM_SCENARIO = nomScenario();
 
+    private ConstanteVue() {}
+
     private static List<String> nomScenario() {
         List<String> nomScenario = new ArrayList<>();
         for (File fichierScenario : Objects.requireNonNull(new File("scenario").listFiles())) {
-            nomScenario.add(fichierScenario.getName().replace(".txt", "").replace("_", " "));
+            nomScenario.add(fichierScenario.getName());
         }
         return nomScenario;
     }

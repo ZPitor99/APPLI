@@ -18,7 +18,7 @@ public class HBoxRoot extends HBox {
         Menu menuScenario = new Menu("Menu");
         ToggleGroup groupeScenario = new ToggleGroup();
         for (String item : LIST_NOM_SCENARIO) {
-            RadioMenuItem menuItem = new RadioMenuItem(item);
+            RadioMenuItem menuItem = new RadioMenuItem(item.replace(".txt", "").replace("_", " "));
             menuItem.setUserData(item);
             menuScenario.getItems().add(menuItem);
             menuItem.setToggleGroup(groupeScenario);
@@ -29,7 +29,7 @@ public class HBoxRoot extends HBox {
                 }
             });
         }
-        ((RadioMenuItem)menuScenario.getItems().getFirst()).setSelected(true);
+        ((RadioMenuItem)menuScenario.getItems().get(1)).setSelected(true);
         menuBar.getMenus().add(menuScenario);
         this.getChildren().add(menuBar);
     }
