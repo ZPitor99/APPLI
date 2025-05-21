@@ -2,25 +2,27 @@ package modele;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class LectureScenario {
 
-    public static Scenario lectureScenario (File fichier) throws IOException {
-        Scenario scenario = new Scenario();
+    public static Scenario lectureScenario(File fichier) throws IOException {
+        List<String> vendeurs = new ArrayList<>();
+        List<String> acheteurs = new ArrayList<>();
         Scanner scanner = new Scanner(fichier);
         Scanner scannerLine;
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             scannerLine = new Scanner(line).useDelimiter(" ");
-            String vendeur = scannerLine.next();
+            vendeurs.add(scannerLine.next());
             scannerLine.next();
-            String acheteur = scannerLine.next();
-            System.out.println(vendeur + " " + acheteur);
+            acheteurs.add(scannerLine.next());
             scannerLine.close();
         }
         scanner.close();
-        return scenario;
+        return new Scenario(vendeurs, acheteurs);
     }
 }

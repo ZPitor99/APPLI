@@ -19,7 +19,7 @@ public class ClientApplication extends Application {
         stage.setResizable(false);
         File css = new File("css" + File.separator + "style.css");
         scene.getStylesheets().add(css.toURI().toString());
-//        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/logo.png"))));
+        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pokemon.png"))));
         stage.show();
     }
 

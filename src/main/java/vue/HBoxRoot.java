@@ -28,7 +28,7 @@ public class HBoxRoot extends HBox {
             menuItem.setToggleGroup(groupeScenario);
             menuItem.addEventHandler(ActionEvent.ACTION, controleur);
         }
-        ((RadioMenuItem)menuScenario.getItems().get(1)).setSelected(true);
+        ((RadioMenuItem) menuScenario.getItems().get(1)).setSelected(true);
         menuBar.getMenus().add(menuScenario);
         this.getChildren().add(menuBar);
 
