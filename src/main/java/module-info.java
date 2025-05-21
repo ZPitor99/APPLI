@@ -8,5 +8,5 @@ module com.example.sae_appli {
     exports com.example.sae_appli;
     exports modele;
     exports vue;
-//    exports control;
+    exports controleur;
 }

@@ -1,9 +1,14 @@
 package modele;
 
-import static modele.ConstanteVue.LIST_NOM_SCENARIO;
+
+import java.io.File;
+import java.io.IOException;
+
+import static modele.LectureScenario.lectureScenario;
 
 public class ClientModele {
-    public static void main(String[] args) {
-        System.out.println(LIST_NOM_SCENARIO);
+    public static void main(String[] args) throws IOException {
+
+        lectureScenario(new File("scenario"+ File.separator + "scenario_0.txt"));
     }
 }
