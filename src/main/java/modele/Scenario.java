@@ -20,4 +20,11 @@ public class Scenario {
     public String toString() {
         return vendeurList.toString() + "\n" + acheteurList.toString();
     }
+
+    public List<String> getVendeurList() {
+        return vendeurList;
+    }
+     public List<String> getAcheteurList() {
+        return acheteurList;
+     }
 }
