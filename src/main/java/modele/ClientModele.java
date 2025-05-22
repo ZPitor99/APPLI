@@ -11,5 +11,7 @@ public class ClientModele {
 
         Scenario sn = lectureScenario(new File("scenario" + File.separator + "scenario_0.txt"));
         System.out.println(sn);
+        LectureDistance distance = new LectureDistance();
+        distance.afficherMatrice();
     }
 }
