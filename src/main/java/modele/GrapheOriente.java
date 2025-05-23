@@ -88,17 +88,17 @@ public class GrapheOriente {
         System.out.println(lvs);
 
         // PROGRAMME
-        while (!s.isEmpty()) {
+        while (! s.isEmpty()) {
             Integer courant = s.pollFirst();
             for (Integer i : lvs.get(courant)) {
 
                 System.out.println("/" + courant);
                 System.out.println(i);
-                System.out.println("e="+e);
-                System.out.println("s="+s);
+                System.out.println("e=" + e);
+                System.out.println("s=" + s);
                 System.out.println(num);
 
-                e.put(i, e.get(i)-1);
+                e.put(i, e.get(i) - 1);
                 if (e.get(i) == 0) {
                     s.add(i);
                 }

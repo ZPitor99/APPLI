@@ -13,5 +13,6 @@ public class ClientModele {
         System.out.println(sn);
         LectureDistance distance = new LectureDistance();
         distance.afficherMatrice();
+        LectureMembre membre = new LectureMembre();
     }
 }
