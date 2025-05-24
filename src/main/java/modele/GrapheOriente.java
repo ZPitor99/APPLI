@@ -3,14 +3,18 @@ package modele;
 import java.util.*;
 
 public class GrapheOriente {
-    TreeMap<Integer, Set<Integer>> voisinsSortant;
+    TreeMap<String, Set<String>> voisinsSortant;
 
-    public GrapheOriente(int[][] graph) {
+    public GrapheOriente(List<String> depart, List<String> arrive) {
         voisinsSortant = new TreeMap<>();
-        for (int i = 0; i < graph.length; i++) {
-            voisinsSortant.put(i, new TreeSet<>());
-            for (int j = 0; j < graph[i].length; j++) {
-                voisinsSortant.get(i).add(graph[i][j]);
+        if (!depart.isEmpty() || !arrive.isEmpty()) {
+            for (int i = 0; i < depart.size(); i++) {
+                if (!voisinsSortant.containsKey(depart.get(i))) {
+                    voisinsSortant.put(depart.get(i), new TreeSet<>());
+                }
+                else {
+                    voisinsSortant.get(depart.get(i)).add(arrive.get(i));
+                }
             }
         }
     }
@@ -22,14 +26,14 @@ public class GrapheOriente {
         sb.append("Taille : ").append(this.taille()).append("\n");
         sb.append("DegreMin : ").append(this.degreMinimal()).append("\n");
         sb.append("DegreMax : ").append(this.degreMaximal()).append("\n");
-        for (Integer i : listeSommets()) {
-            sb.append("sommet ").append(i).append(" degre=").append(degre(i)).append(" voisins sortant: ").append(voisinsSortant.get(i)).append("\n");
+        for (String i : listeSommets()) {
+            sb.append("sommet ").append(i).append(" degree=").append(degre(i)).append(" voisins sortant: ").append(voisinsSortant.get(i)).append("\n");
         }
         return sb.toString();
     }
 
-    public List<Integer> listeSommets() {
-        List<Integer> sommets = new ArrayList<>(voisinsSortant.keySet());
+    public List<String> listeSommets() {
+        List<String> sommets = new ArrayList<>(voisinsSortant.keySet());
         Collections.sort(sommets);
         return sommets;
     }
@@ -38,13 +42,13 @@ public class GrapheOriente {
         return this.listeSommets().size();
     }
 
-    public int degre(Integer sommet) {
+    public int degre(String sommet) {
         return voisinsSortant.get(sommet).size();
     }
 
     public int taille() {
         int taille = 0;
-        for (Integer i : listeSommets()) {
+        for (String i : listeSommets()) {
             taille += this.degre(i);
         }
         return taille;
@@ -52,7 +56,7 @@ public class GrapheOriente {
 
     public int degreMinimal() {
         int degreMin = 0;
-        for (Integer i : listeSommets()) {
+        for (String i : listeSommets()) {
             if (degre(i) < degreMin)
                 degreMin = degre(i);
         }
@@ -61,26 +65,26 @@ public class GrapheOriente {
 
     public int degreMaximal() {
         int degreMax = 0;
-        for (Integer i : listeSommets()) {
+        for (String i : listeSommets()) {
             if (degre(i) > degreMax)
                 degreMax = degre(i);
         }
         return degreMax;
     }
 
-    public List<Integer> trieTopologique() {
+    public List<String> trieTopologique() {
         // NUM
-        ArrayList<Integer> num = new ArrayList<>();
+        ArrayList<String> num = new ArrayList<>();
 
         // VOISINS SORTANT
-        TreeMap<Integer, Set<Integer>> lvs = (TreeMap<Integer, Set<Integer>>) this.voisinsSortant.clone();
+        TreeMap<String, Set<String>> lvs = (TreeMap<String, Set<String>>) this.voisinsSortant.clone();
 
         // DEGRES ENTRANT
-        TreeMap<Integer, Integer> e = new TreeMap<Integer, Integer>();
+        TreeMap<String, Integer> e = new TreeMap<String, Integer>();
         e = this.getDegreEntrant();
 
         // SOMMETS SOUCES
-        TreeSet<Integer> s = new TreeSet<>();
+        TreeSet<String> s = new TreeSet<>();
         s = this.sommetsSources(e);
 
         System.out.println(e);
@@ -88,17 +92,17 @@ public class GrapheOriente {
         System.out.println(lvs);
 
         // PROGRAMME
-        while (! s.isEmpty()) {
-            Integer courant = s.pollFirst();
-            for (Integer i : lvs.get(courant)) {
+        while (!s.isEmpty()) {
+            String courant = s.pollFirst();
+            for (String i : lvs.get(courant)) {
 
                 System.out.println("/" + courant);
                 System.out.println(i);
-                System.out.println("e=" + e);
-                System.out.println("s=" + s);
+                System.out.println("e="+e);
+                System.out.println("s="+s);
                 System.out.println(num);
 
-                e.put(i, e.get(i) - 1);
+                e.put(i, e.get(i)-1);
                 if (e.get(i) == 0) {
                     s.add(i);
                 }
@@ -109,11 +113,11 @@ public class GrapheOriente {
         return num;
     }
 
-    private TreeMap<Integer, Integer> getDegreEntrant() {
-        TreeMap<Integer, Integer> degreEntrant = new TreeMap<Integer, Integer>();
-        for (Integer i : this.listeSommets()) {
+    private TreeMap<String, Integer> getDegreEntrant() {
+        TreeMap<String, Integer> degreEntrant = new TreeMap<String, Integer>();
+        for (String i : this.listeSommets()) {
             degreEntrant.put(i, 0);
-            for (Integer j : this.listeSommets()) {
+            for (String j : this.listeSommets()) {
                 if (this.voisinsSortant.get(j).contains(i)) {
                     degreEntrant.put(i, degreEntrant.get(i) + 1);
                 }
@@ -122,9 +126,9 @@ public class GrapheOriente {
         return degreEntrant;
     }
 
-    private TreeSet<Integer> sommetsSources(TreeMap<Integer, Integer> degreEntrant) {
-        TreeSet<Integer> sommets = new TreeSet<>();
-        for (Integer i : listeSommets()) {
+    private TreeSet<String> sommetsSources(TreeMap<String, Integer> degreEntrant) {
+        TreeSet<String> sommets = new TreeSet<>();
+        for (String i : listeSommets()) {
             if (degreEntrant.get(i) == 0) {
                 sommets.add(i);
             }
