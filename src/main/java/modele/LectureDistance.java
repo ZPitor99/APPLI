@@ -8,8 +8,8 @@ import java.util.Scanner;
 
 public class LectureDistance {
 
-    public List<String> villes = new ArrayList<>();
-    public List<List<Integer>> distancesVilles = new ArrayList<>();
+    public static List<String> villes = new ArrayList<>();
+    public static List<List<Integer>> distancesVilles = new ArrayList<>();
 
     public LectureDistance() throws FileNotFoundException {
         Scanner scanner = new Scanner(new File("donnees" + File.separator + "distances.txt"));

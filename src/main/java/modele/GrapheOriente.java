@@ -7,16 +7,19 @@ public class GrapheOriente {
 
     public GrapheOriente(List<String> depart, List<String> arrive) {
         voisinsSortant = new TreeMap<>();
-        if (!depart.isEmpty() || !arrive.isEmpty()) {
+        if (!depart.isEmpty() && !arrive.isEmpty()) {
             for (int i = 0; i < depart.size(); i++) {
                 if (!voisinsSortant.containsKey(depart.get(i))) {
                     voisinsSortant.put(depart.get(i), new TreeSet<>());
+                    voisinsSortant.get(depart.get(i)).add(arrive.get(i));
                 }
                 else {
                     voisinsSortant.get(depart.get(i)).add(arrive.get(i));
                 }
+                voisinsSortant.put(arrive.get(i), new TreeSet<>());
             }
         }
+        System.out.println(voisinsSortant);
     }
 
     @Override
@@ -32,20 +35,37 @@ public class GrapheOriente {
         return sb.toString();
     }
 
+    /**
+     * Donne la liste des sommets triée.
+     * @return Une arrayList des sommets du graphe
+     */
     public List<String> listeSommets() {
         List<String> sommets = new ArrayList<>(voisinsSortant.keySet());
         Collections.sort(sommets);
         return sommets;
     }
 
+    /**
+     * Donne le nombre de sommets du graphe
+     * @return Le nombre correspondant à l'ordre du graphe
+     */
     public int ordre() {
         return this.listeSommets().size();
     }
 
+    /**
+     * Donne le nombre de voisins sortants du sommet
+     * @param sommet Le nom d'un sommet du gra^he
+     * @return Le nombre correspondant au degré du sommet
+     */
     public int degre(String sommet) {
         return voisinsSortant.get(sommet).size();
     }
 
+    /**
+     * Donne le nombre d'arêtes dans le graphe
+     * @return Le nombre correspondant à la taille du graphe
+     */
     public int taille() {
         int taille = 0;
         for (String i : listeSommets()) {
@@ -54,6 +74,10 @@ public class GrapheOriente {
         return taille;
     }
 
+    /**
+     * Donne le degré minimal parmi les degrés des sommets du graphe
+     * @return Le degré minimal dans le graphe
+     */
     public int degreMinimal() {
         int degreMin = 0;
         for (String i : listeSommets()) {
@@ -63,6 +87,10 @@ public class GrapheOriente {
         return degreMin;
     }
 
+    /**
+     * Donne le degré maximal parmi les degrés des sommets du graphe
+     * @return Le degré maximal dans le graphe
+     */
     public int degreMaximal() {
         int degreMax = 0;
         for (String i : listeSommets()) {
@@ -72,24 +100,27 @@ public class GrapheOriente {
         return degreMax;
     }
 
-    public List<String> trieTopologique() {
+    public ArrayList<String> trieTopologique() {
         // NUM
         ArrayList<String> num = new ArrayList<>();
 
         // VOISINS SORTANT
+        // sommet+ (liste des sommets-)
         TreeMap<String, Set<String>> lvs = (TreeMap<String, Set<String>>) this.voisinsSortant.clone();
 
         // DEGRES ENTRANT
+        // sommet+ et int
         TreeMap<String, Integer> e = new TreeMap<String, Integer>();
         e = this.getDegreEntrant();
 
-        // SOMMETS SOUCES
+        // SOMMETS SOURCES
+        // sommet+
         TreeSet<String> s = new TreeSet<>();
         s = this.sommetsSources(e);
 
-        System.out.println(e);
-        System.out.println(s);
-        System.out.println(lvs);
+        System.out.println( "------------ \n" + "e = " + e);
+        System.out.println("s = " + s);
+        System.out.println("lvs = " + lvs + "\n ------------");
 
         // PROGRAMME
         while (!s.isEmpty()) {
@@ -102,7 +133,7 @@ public class GrapheOriente {
                 System.out.println("s="+s);
                 System.out.println(num);
 
-                e.put(i, e.get(i)-1);
+                e.put(i, Integer.valueOf(e.get(i)-1));
                 if (e.get(i) == 0) {
                     s.add(i);
                 }
@@ -116,10 +147,10 @@ public class GrapheOriente {
     private TreeMap<String, Integer> getDegreEntrant() {
         TreeMap<String, Integer> degreEntrant = new TreeMap<String, Integer>();
         for (String i : this.listeSommets()) {
-            degreEntrant.put(i, 0);
+            degreEntrant.put(i, Integer.valueOf(0));
             for (String j : this.listeSommets()) {
                 if (this.voisinsSortant.get(j).contains(i)) {
-                    degreEntrant.put(i, degreEntrant.get(i) + 1);
+                    degreEntrant.put(i, Integer.valueOf(degreEntrant.get(i) + 1));
                 }
             }
         }

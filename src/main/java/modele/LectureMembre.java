@@ -6,9 +6,20 @@ import java.util.*;
 
 public class LectureMembre {
 
-    public Map<String, List<String>> villeMembres = new TreeMap<String, List<String>>();
+    public static Map<String, String> villeMembres;
 
-    public LectureMembre() throws FileNotFoundException {
+    static {
+        try {
+            villeMembres = setVilleMembres();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public LectureMembre(){}
+
+    public static TreeMap<String, String> setVilleMembres() throws FileNotFoundException {
+        TreeMap<String, String> mv = new TreeMap<String, String>();
         Scanner scanner = new Scanner(new File("donnees" + File.separator + "membres_APPLI.txt"));
         Scanner scannerLine;
 
@@ -19,24 +30,22 @@ public class LectureMembre {
             String membre = scannerLine.next();
             String ville = scannerLine.next();
 
-            if (! villeMembres.containsKey(ville)) {
-                villeMembres.put(ville, new ArrayList<>());
-            }
-            villeMembres.get(ville).add(membre);
+            mv.put(membre, ville);
             scannerLine.close();
         }
         scanner.close();
+        return mv;
     }
 
-    public Map<String, List<String>> getVilleMembres() {
+    public Map<String, String> getVilleMembres() {
         return villeMembres;
     }
 
     @Override
     public String toString() {
         StringBuilder affichage = new StringBuilder();
-        for (Map.Entry<String, List<String>> entry : villeMembres.entrySet()) {
-            affichage.append(entry.getKey()).append('\n').append(entry.getValue()).append('\n');
+        for (Map.Entry<String, String> entry : villeMembres.entrySet()) {
+            affichage.append(entry.getKey()).append('-').append(entry.getValue()).append('\n');
         }
         return affichage.toString();
     }
