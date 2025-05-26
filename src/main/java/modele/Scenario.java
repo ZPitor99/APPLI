@@ -6,13 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static modele.LectureDistance.distancesVilles;
+import static modele.LectureDistance.villes;
 import static modele.LectureMembre.villeMembres;
 
 public class Scenario {
     public List<String> vendeurList = new ArrayList<>();
     public List<String> acheteurList = new ArrayList<>();
-    public  List<String> vendeurListDouble;
-    public  List<String> acheteurListDouble;
+
+    public List<String> vendeurListDouble;
+    public List<String> acheteurListDouble;
+
+    public List<String> trieTopologique;
 
     public Scenario(File fichier) throws FileNotFoundException {
         Scanner scanner = new Scanner(fichier);
@@ -46,7 +51,7 @@ public class Scenario {
         return acheteurList;
     }
 
-    public void setListDouble(){
+    public void setListDouble() {
         vendeurListDouble = new ArrayList<>();
         acheteurListDouble = new ArrayList<>();
 
@@ -61,13 +66,12 @@ public class Scenario {
         String ajout = "";
         if (mettrePlus) {
             ajout = "+";
-        }
-        else
+        } else
             ajout = "-";
 
         for (String s : membres) {
             System.out.println(s);
-            villes.add(villeMembres.get(s)+ajout);
+            villes.add(villeMembres.get(s) + ajout);
         }
         return villes;
     }
@@ -78,5 +82,21 @@ public class Scenario {
 
     public List<String> getAcheteurListDouble() {
         return acheteurListDouble;
+    }
+
+    public void setTrieTopologique(List<String> chemin) {
+        trieTopologique = chemin;
+        longeurChemin(trieTopologique);
+
+    }
+
+    private Integer longeurChemin(List<String> chemin) {
+        Integer longueur = (Integer) 0;
+        longueur += distancesVilles.get(villes.indexOf("Velizy")).get(villes.indexOf(chemin.getFirst().substring(0, chemin.getFirst().length() - 1)));
+        for (int i = 0; i < chemin.size() - 1; i++) {
+            longueur += distancesVilles.get(villes.indexOf(chemin.get(i).substring(0, chemin.get(i).length() - 1))).get(villes.indexOf(chemin.get(i + 1).substring(0, chemin.get(i + 1).length() - 1)));
+        }
+        longueur += distancesVilles.get(villes.indexOf(chemin.getLast().substring(0, chemin.getLast().length() - 1))).get(villes.indexOf("Velizy"));
+        return longueur;
     }
 }

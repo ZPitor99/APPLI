@@ -18,7 +18,7 @@ public class LectureMembre {
 
     public LectureMembre(){}
 
-    public static TreeMap<String, String> setVilleMembres() throws FileNotFoundException {
+    private static TreeMap<String, String> setVilleMembres() throws FileNotFoundException {
         TreeMap<String, String> mv = new TreeMap<String, String>();
         Scanner scanner = new Scanner(new File("donnees" + File.separator + "membres_APPLI.txt"));
         Scanner scannerLine;

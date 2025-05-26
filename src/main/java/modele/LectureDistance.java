@@ -8,27 +8,61 @@ import java.util.Scanner;
 
 public class LectureDistance {
 
-    public static List<String> villes = new ArrayList<>();
-    public static List<List<Integer>> distancesVilles = new ArrayList<>();
+    public static List<String> villes;
 
-    public LectureDistance() throws FileNotFoundException {
+    static {
+        try {
+            villes = setVilles();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<List<Integer>> distancesVilles;
+
+    static {
+        try {
+            distancesVilles = setDistances();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public LectureDistance(){}
+
+    private static ArrayList<String> setVilles () throws FileNotFoundException {
+        ArrayList<String> villeList = new ArrayList<>();
         Scanner scanner = new Scanner(new File("donnees" + File.separator + "distances.txt"));
         Scanner scannerLine;
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             scannerLine = new Scanner(line).useDelimiter(" ");
+            villeList.add(scannerLine.next());
+        }
+        scanner.close();
+        return villeList;
+    }
 
-            villes.add(scannerLine.next());
+    private static List<List<Integer>> setDistances () throws FileNotFoundException {
+        List<List<Integer>> distancesList = new ArrayList<>();
+        Scanner scanner = new Scanner(new File("donnees" + File.separator + "distances.txt"));
+        Scanner scannerLine;
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            scannerLine = new Scanner(line).useDelimiter(" ");
+            scannerLine.next();
 
             List<Integer> distance = new ArrayList<>();
             while (scannerLine.hasNext()) {
                 distance.add(Integer.valueOf(scannerLine.next()));
             }
-            distancesVilles.add(distance);
+            distancesList.add(distance);
             scannerLine.close();
         }
         scanner.close();
+        return distancesList;
     }
 
     /**
