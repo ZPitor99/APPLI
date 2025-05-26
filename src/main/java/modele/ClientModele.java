@@ -17,6 +17,6 @@ public class ClientModele {
         //System.out.println(villeMembres);
         //System.out.println(sc0);
         GrapheOriente g = new GrapheOriente(sc0.getVendeurListDouble(), sc0.getAcheteurListDouble());
-        sc0.setTrieTopologique(g.trieTopologique());
+        sc0.setTrieTopologiqueSimple(g.trieTopologique());
     }
 }

@@ -17,7 +17,8 @@ public class Scenario {
     public List<String> vendeurListDouble;
     public List<String> acheteurListDouble;
 
-    public List<String> trieTopologique;
+    public List<String> trieTopologiqueSimple;
+    public Integer trieTopologiqueSimpleLongueur;
 
     public Scenario(File fichier) throws FileNotFoundException {
         Scanner scanner = new Scanner(fichier);
@@ -43,55 +44,89 @@ public class Scenario {
         return vendeurList.toString() + "\n" + acheteurList.toString();
     }
 
+    /**
+     * Accesseur de VendeurList
+     * @return la liste des vendeurs du scénario
+     */
     public List<String> getVendeurList() {
         return vendeurList;
     }
 
+    /**
+     * Accesseur de AcheteurList
+     * @return la liste des acheteurs du scénario
+     */
     public List<String> getAcheteurList() {
         return acheteurList;
     }
 
+    /**
+     * Double les sommets du graphe pour éviter les cycles
+     * Remplie les champs %Double de la classe
+     */
     public void setListDouble() {
         vendeurListDouble = new ArrayList<>();
         acheteurListDouble = new ArrayList<>();
-
         vendeurListDouble = transformationVille(vendeurList, true);
         acheteurListDouble = transformationVille(acheteurList, false);
-        System.out.println(vendeurListDouble);
-        System.out.println(acheteurListDouble);
     }
 
+    /**
+     * Donne à partir d'une liste de la liste des villes dans les quel se trouvent chacun des membres de la liste
+     * Exemple : Transforme [Bulbizarre, Herbizarre, Florizarre, Salamèche]
+     * En : [Brest+, Perpignan+, Brest+, Lille+] si mettrePlus est à true
+     * Sinon en : [Brest-, Perpignan-, Brest-, Lille-]
+     * @param membres Liste des membres à transformer
+     * @param mettrePlus Boolean qui indique si le signe est "+" ou "-"
+     * @return La Liste des membres transformée en ville avec le symbole adéquate
+     */
     private List<String> transformationVille(List<String> membres, boolean mettrePlus) {
         List<String> villes = new ArrayList<>();
-        String ajout = "";
+        String ajout;
         if (mettrePlus) {
             ajout = "+";
         } else
             ajout = "-";
 
         for (String s : membres) {
-            System.out.println(s);
             villes.add(villeMembres.get(s) + ajout);
         }
         return villes;
     }
 
+    /**
+     * Accesseur de VendeurListDouble
+     * @return une liste de villes doublées
+     */
     public List<String> getVendeurListDouble() {
         return vendeurListDouble;
     }
 
+    /**
+     * Accesseur de AcheteurListDouble
+     * @return une liste de villes doublées
+     */
     public List<String> getAcheteurListDouble() {
         return acheteurListDouble;
     }
 
-    public void setTrieTopologique(List<String> chemin) {
-        trieTopologique = chemin;
-        longeurChemin(trieTopologique);
+    /**
+     * Affecte aux champs correspondant le chemin topologique et la longueur de ce chemin
+     * @param chemin Le chemin topologique
+     */
+    public void setTrieTopologiqueSimple(List<String> chemin) {
+        trieTopologiqueSimple = chemin;
+        trieTopologiqueSimpleLongueur = longeurChemin(trieTopologiqueSimple);
 
     }
 
+    /**
+     * Donne la longueur du chemin à partir des constantes DISTANCESVILLES et VILLES
+     * @param chemin Une liste de villes
+     * @return la somme des longueurs entre chaque ville de la liste et ajoute la distance entre Vélizy et la ville de départ et d'arrivé
+     */
     private Integer longeurChemin(List<String> chemin) {
-        Integer longueur = (Integer) 0;
+        Integer longueur = 0;
         longueur += distancesVilles.get(villes.indexOf("Velizy")).get(villes.indexOf(chemin.getFirst().substring(0, chemin.getFirst().length() - 1)));
         for (int i = 0; i < chemin.size() - 1; i++) {
             longueur += distancesVilles.get(villes.indexOf(chemin.get(i).substring(0, chemin.get(i).length() - 1))).get(villes.indexOf(chemin.get(i + 1).substring(0, chemin.get(i + 1).length() - 1)));
