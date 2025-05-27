@@ -21,6 +21,13 @@ public class LectureMembre {
     public LectureMembre() {
     }
 
+    /**
+     * Donne un dictionnaire qui à chaque membre associe sa ville de résidence
+     * depuis le fichier /donnees/membres_APPLI.txt
+     *
+     * @return un dictionnaire nom du membre (key) et ville (value)
+     * @throws FileNotFoundException
+     */
     private static TreeMap<String, String> setVilleMembres() throws FileNotFoundException {
         TreeMap<String, String> mv = new TreeMap<String, String>();
         Scanner scanner = new Scanner(new File("donnees" + File.separator + "membres_APPLI.txt"));
@@ -40,6 +47,10 @@ public class LectureMembre {
         return mv;
     }
 
+    /**
+     * Accesseur du champ villeMembres : le dictionnaire VilleMembres
+     * @return un dictionnaire des membres et de leur ville de résidence
+     */
     public Map<String, String> getVilleMembres() {
         return VILLES_MEMBRES;
     }

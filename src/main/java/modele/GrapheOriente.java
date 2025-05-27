@@ -155,6 +155,12 @@ public class GrapheOriente {
         return num;
     }
 
+    /**
+     * À partir de la liste des voisins sortants (implementation du graphe), donne un dictionnaire des degrés entrant
+     * de chaque sommet du graphe
+     *
+     * @return Un dictionnaire qui associe un sommet son degree entrant
+     */
     private TreeMap<String, Integer> getDegreEntrant() {
         TreeMap<String, Integer> degreEntrant = new TreeMap<String, Integer>();
         for (String i : this.listeSommets()) {
@@ -168,6 +174,13 @@ public class GrapheOriente {
         return degreEntrant;
     }
 
+    /**
+     * À partir de la liste des voisins sortants (implementation du graphe), donne les sommets sources du graphe
+     * Rappel : Sources ↔ sommet avec un degré entrant = 0
+     *
+     * @param degreEntrant Un dictionnaire {ville : degré entrant} des sommets du graphe
+     * @return la liste des villes étant source du graphe
+     */
     private TreeSet<String> sommetsSources(TreeMap<String, Integer> degreEntrant) {
         TreeSet<String> sommets = new TreeSet<>();
         for (String i : listeSommets()) {

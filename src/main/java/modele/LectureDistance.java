@@ -31,6 +31,11 @@ public class LectureDistance {
     public LectureDistance() {
     }
 
+    /**
+     * Donne la liste des villes lue dans le fichier /donnees/distances.txt
+     * @return une liste de ville
+     * @throws FileNotFoundException
+     */
     private static ArrayList<String> setVilles() throws FileNotFoundException {
         ArrayList<String> villeList = new ArrayList<>();
         Scanner scanner = new Scanner(new File("donnees" + File.separator + "distances.txt"));
@@ -45,6 +50,13 @@ public class LectureDistance {
         return villeList;
     }
 
+    /**
+     * Donne une liste de liste (matrice) qui correspond aux distances entre chaque ville
+     * depuis le fichier /donnees/distances.txt
+     *
+     * @return Une liste de liste des distances entre villes
+     * @throws FileNotFoundException
+     */
     private static List<List<Integer>> setDistances() throws FileNotFoundException {
         List<List<Integer>> distancesList = new ArrayList<>();
         Scanner scanner = new Scanner(new File("donnees" + File.separator + "distances.txt"));
