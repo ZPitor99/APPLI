@@ -15,6 +15,7 @@ public class AffichageScenario extends VBox {
     public AffichageScenario() {
         super(10);
 
+        numScenario.setStyle("-fx-font-weight: bold");
         numScenario.setMnemonicParsing(true);
         this.getChildren().addAll(numScenario);
 
@@ -30,13 +31,14 @@ public class AffichageScenario extends VBox {
         scenarioAcheteurs.setMinWidth(150);
         scenarioAcheteurs.setMaxWidth(150);
 
+        //Place des colonnes fixe, trie possible → praticité
         scenarioVendeurs.setCellValueFactory(new PropertyValueFactory<>("vendeur"));
         scenarioVendeurs.setReorderable(Boolean.FALSE);
-        scenarioVendeurs.setSortable(Boolean.FALSE);
+        scenarioVendeurs.setSortable(Boolean.TRUE);
 
         scenarioAcheteurs.setCellValueFactory(new PropertyValueFactory<>("acheteur"));
         scenarioAcheteurs.setReorderable(Boolean.FALSE);
-        scenarioAcheteurs.setSortable(Boolean.FALSE);
+        scenarioAcheteurs.setSortable(Boolean.TRUE);
 
         // Permettre à la table de s'agrandir avec la fenêtre
         VBox.setVgrow(tableDuScenarios, Priority.ALWAYS);

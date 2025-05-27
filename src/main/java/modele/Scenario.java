@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static modele.LectureDistance.distancesVilles;
-import static modele.LectureDistance.villes;
-import static modele.LectureMembre.villeMembres;
+import static modele.LectureDistance.DISTANCES_VILLES;
+import static modele.LectureDistance.VILLES;
+import static modele.LectureMembre.VILLES_MEMBRES;
 
 public class Scenario {
     public List<String> vendeurList = new ArrayList<>();
@@ -92,7 +92,7 @@ public class Scenario {
             ajout = "-";
 
         for (String s : membres) {
-            villes.add(villeMembres.get(s) + ajout);
+            villes.add(VILLES_MEMBRES.get(s) + ajout);
         }
         return villes;
     }
@@ -134,11 +134,11 @@ public class Scenario {
      */
     private Integer longeurChemin(List<String> chemin) {
         Integer longueur = 0;
-        longueur += distancesVilles.get(villes.indexOf("Velizy")).get(villes.indexOf(chemin.getFirst().substring(0, chemin.getFirst().length() - 1)));
+        longueur += DISTANCES_VILLES.get(VILLES.indexOf("Velizy")).get(VILLES.indexOf(chemin.getFirst().substring(0, chemin.getFirst().length() - 1)));
         for (int i = 0; i < chemin.size() - 1; i++) {
-            longueur += distancesVilles.get(villes.indexOf(chemin.get(i).substring(0, chemin.get(i).length() - 1))).get(villes.indexOf(chemin.get(i + 1).substring(0, chemin.get(i + 1).length() - 1)));
+            longueur += DISTANCES_VILLES.get(VILLES.indexOf(chemin.get(i).substring(0, chemin.get(i).length() - 1))).get(VILLES.indexOf(chemin.get(i + 1).substring(0, chemin.get(i + 1).length() - 1)));
         }
-        longueur += distancesVilles.get(villes.indexOf(chemin.getLast().substring(0, chemin.getLast().length() - 1))).get(villes.indexOf("Velizy"));
+        longueur += DISTANCES_VILLES.get(VILLES.indexOf(chemin.getLast().substring(0, chemin.getLast().length() - 1))).get(VILLES.indexOf("Velizy"));
         return longueur;
     }
 }

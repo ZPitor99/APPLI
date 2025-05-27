@@ -105,6 +105,12 @@ public class GrapheOriente {
         return degreMax;
     }
 
+    /**
+     * Donne la liste de ville à parcourir pour effectuer le chemin topologique de manière ordonné
+     * par nom de sommet alphabetic (algo du cours de graphe)
+     *
+     * @return une arraylist de ville constituant le chemin topologique
+     */
     public ArrayList<String> trieTopologique() {
         // NUM
         ArrayList<String> num = new ArrayList<>();
@@ -145,7 +151,7 @@ public class GrapheOriente {
             }
             num.add(courant);
         }
-
+        System.out.println(num);
         return num;
     }
 
@@ -170,5 +176,55 @@ public class GrapheOriente {
             }
         }
         return sommets;
+    }
+
+    /**
+     * Donne la liste de ville à parcourir pour effectuer le chemin topologique de manière gloutonne, c'est-à-dire
+     * avec optimisation locale : prendre la ville la plus proche dans la liste des sources
+     *
+     * @return une arraylist de ville constituant le chemin topologique de manière gloutonne
+     */
+    public ArrayList<String> trieTopologiqueGlouton () {
+        // NUM
+        ArrayList<String> num = new ArrayList<>();
+
+        // VOISINS SORTANT
+        // sommet+ (liste des sommets-)
+        TreeMap<String, Set<String>> lvs = (TreeMap<String, Set<String>>) this.voisinsSortant.clone();
+
+        // DEGRES ENTRANT
+        // sommet+ et int
+        TreeMap<String, Integer> e = new TreeMap<String, Integer>();
+        e = this.getDegreEntrant();
+
+        // SOMMETS SOURCES
+        // sommet+
+        TreeSet<String> s = new TreeSet<>();
+        s = this.sommetsSources(e);
+
+//        System.out.println( "------------ \n" + "e = " + e);
+//        System.out.println("s = " + s);
+//        System.out.println("lvs = " + lvs + "\n ------------");
+
+        // PROGRAMME
+        while (! s.isEmpty()) {
+            String courant = s.pollFirst();
+            for (String i : lvs.get(courant)) {
+
+//                System.out.println("/" + courant);
+//                System.out.println(i);
+//                System.out.println("e="+e);
+//                System.out.println("s="+s);
+//                System.out.println(num);
+
+                e.put(i, Integer.valueOf(e.get(i) - 1));
+                if (e.get(i) == 0) {
+                    s.add(i);
+                }
+            }
+            num.add(courant);
+        }
+        System.out.println(num);
+        return num;
     }
 }

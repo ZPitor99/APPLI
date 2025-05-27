@@ -8,21 +8,21 @@ import java.util.Scanner;
 
 public class LectureDistance {
 
-    public static List<String> villes;
+    public static List<String> VILLES;
 
     static {
         try {
-            villes = setVilles();
+            VILLES = setVilles();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static List<List<Integer>> distancesVilles;
+    public static List<List<Integer>> DISTANCES_VILLES;
 
     static {
         try {
-            distancesVilles = setDistances();
+            DISTANCES_VILLES = setDistances();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -72,7 +72,7 @@ public class LectureDistance {
      * @return double arrayList des distances entre les villes
      */
     public List<List<Integer>> getDistancesVilles() {
-        return distancesVilles;
+        return DISTANCES_VILLES;
     }
 
     /**
@@ -81,7 +81,7 @@ public class LectureDistance {
      * @return une arrayList des villes
      */
     public List<String> getVilles() {
-        return villes;
+        return VILLES;
     }
 
     @Override
@@ -90,8 +90,8 @@ public class LectureDistance {
      */
     public String toString() {
         return "LectureDistance{" +
-                "villes=" + villes +
-                ",\ndistancesVilles=" + distancesVilles +
+                "villes=" + VILLES +
+                ",\ndistancesVilles=" + DISTANCES_VILLES +
                 '}';
     }
 
@@ -142,10 +142,10 @@ public class LectureDistance {
      * Affiche dans le terminal sous forme de matrice les distance entre les villes
      */
     public void afficherMatrice() {
-        System.out.println("Villes : " + villes);
+        System.out.println("Villes : " + VILLES);
         System.out.println("Matrice des distances :");
-        for (int i = 0; i < villes.size(); i++) {
-            System.out.println(villes.get(i) + " : " + distancesVilles.get(i));
+        for (int i = 0; i < VILLES.size(); i++) {
+            System.out.println(VILLES.get(i) + " : " + DISTANCES_VILLES.get(i));
         }
     }
 }

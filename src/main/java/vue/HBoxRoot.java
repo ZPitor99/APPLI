@@ -15,10 +15,11 @@ public class HBoxRoot extends HBox {
 
     private static Controleur controleur = new Controleur();
     private static AffichageScenario affichageScenario = new AffichageScenario();
+    private static AffichageChemin affichageChemin = new AffichageChemin();
 
     public HBoxRoot() {
         super();
-        this.setSpacing(10);
+        this.setSpacing(40);
 
         //Bar de Menu
         MenuBar menuBar = new MenuBar();
@@ -39,7 +40,7 @@ public class HBoxRoot extends HBox {
         this.getChildren().add(menuBar);
 
         //Vues
-        this.getChildren().addAll(affichageScenario);
+        this.getChildren().addAll(affichageScenario, affichageChemin);
     }
 
     public static Controleur getControleur() {
@@ -48,5 +49,9 @@ public class HBoxRoot extends HBox {
 
     public static AffichageScenario getAffichageScenario() {
         return affichageScenario;
+    }
+
+    public static AffichageChemin getAffichageChemin() {
+        return affichageChemin;
     }
 }

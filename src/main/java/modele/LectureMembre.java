@@ -8,11 +8,11 @@ import java.util.TreeMap;
 
 public class LectureMembre {
 
-    public static Map<String, String> villeMembres;
+    public static Map<String, String> VILLES_MEMBRES;
 
     static {
         try {
-            villeMembres = setVilleMembres();
+            VILLES_MEMBRES = setVilleMembres();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -41,13 +41,13 @@ public class LectureMembre {
     }
 
     public Map<String, String> getVilleMembres() {
-        return villeMembres;
+        return VILLES_MEMBRES;
     }
 
     @Override
     public String toString() {
         StringBuilder affichage = new StringBuilder();
-        for (Map.Entry<String, String> entry : villeMembres.entrySet()) {
+        for (Map.Entry<String, String> entry : VILLES_MEMBRES.entrySet()) {
             affichage.append(entry.getKey()).append('-').append(entry.getValue()).append('\n');
         }
         return affichage.toString();

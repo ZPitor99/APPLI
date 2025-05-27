@@ -60,8 +60,6 @@ public class Controleur implements EventHandler {
         }
     }
 
-    //Quitter APPLI
-
     /**
      * Affiche une fenetre de confirmation avant de quitter l'application
      *
