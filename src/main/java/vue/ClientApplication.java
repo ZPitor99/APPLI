@@ -1,10 +1,11 @@
 package vue;
 
+import controleur.Controleur;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
 
 import java.io.File;
 import java.util.Objects;
@@ -13,13 +14,16 @@ public class ClientApplication extends Application {
     @Override
     public void start(Stage stage) {
         HBox root = new HBoxRoot();
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1200, 600);
         stage.setScene(scene);
         stage.setTitle("APPLI");
-        stage.setResizable(false);
+        stage.setResizable(true);
         File css = new File("css" + File.separator + "style.css");
         scene.getStylesheets().add(css.toURI().toString());
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/pokemon.png"))));
+        Controleur controleur = HBoxRoot.getControleur();
+        stage.setOnCloseRequest(controleur::handleWindowClose);
+
         stage.show();
     }
 

@@ -28,9 +28,10 @@ public class LectureDistance {
         }
     }
 
-    public LectureDistance(){}
+    public LectureDistance() {
+    }
 
-    private static ArrayList<String> setVilles () throws FileNotFoundException {
+    private static ArrayList<String> setVilles() throws FileNotFoundException {
         ArrayList<String> villeList = new ArrayList<>();
         Scanner scanner = new Scanner(new File("donnees" + File.separator + "distances.txt"));
         Scanner scannerLine;
@@ -44,7 +45,7 @@ public class LectureDistance {
         return villeList;
     }
 
-    private static List<List<Integer>> setDistances () throws FileNotFoundException {
+    private static List<List<Integer>> setDistances() throws FileNotFoundException {
         List<List<Integer>> distancesList = new ArrayList<>();
         Scanner scanner = new Scanner(new File("donnees" + File.separator + "distances.txt"));
         Scanner scannerLine;

@@ -2,7 +2,9 @@ package modele;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
 
 public class LectureMembre {
 
@@ -16,7 +18,8 @@ public class LectureMembre {
         }
     }
 
-    public LectureMembre(){}
+    public LectureMembre() {
+    }
 
     private static TreeMap<String, String> setVilleMembres() throws FileNotFoundException {
         TreeMap<String, String> mv = new TreeMap<String, String>();

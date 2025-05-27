@@ -7,13 +7,12 @@ public class GrapheOriente {
 
     public GrapheOriente(List<String> depart, List<String> arrive) {
         voisinsSortant = new TreeMap<>();
-        if (!depart.isEmpty() && !arrive.isEmpty()) {
+        if (! depart.isEmpty() && ! arrive.isEmpty()) {
             for (int i = 0; i < depart.size(); i++) {
-                if (!voisinsSortant.containsKey(depart.get(i))) {
+                if (! voisinsSortant.containsKey(depart.get(i))) {
                     voisinsSortant.put(depart.get(i), new TreeSet<>());
                     voisinsSortant.get(depart.get(i)).add(arrive.get(i));
-                }
-                else {
+                } else {
                     voisinsSortant.get(depart.get(i)).add(arrive.get(i));
                 }
                 voisinsSortant.put(arrive.get(i), new TreeSet<>());
@@ -37,6 +36,7 @@ public class GrapheOriente {
 
     /**
      * Donne la liste des sommets triée.
+     *
      * @return Une arrayList des sommets du graphe
      */
     public List<String> listeSommets() {
@@ -47,6 +47,7 @@ public class GrapheOriente {
 
     /**
      * Donne le nombre de sommets du graphe
+     *
      * @return Le nombre correspondant à l'ordre du graphe
      */
     public int ordre() {
@@ -55,6 +56,7 @@ public class GrapheOriente {
 
     /**
      * Donne le nombre de voisins sortants du sommet
+     *
      * @param sommet Le nom d'un sommet du gra^he
      * @return Le nombre correspondant au degré du sommet
      */
@@ -64,6 +66,7 @@ public class GrapheOriente {
 
     /**
      * Donne le nombre d'arêtes dans le graphe
+     *
      * @return Le nombre correspondant à la taille du graphe
      */
     public int taille() {
@@ -76,6 +79,7 @@ public class GrapheOriente {
 
     /**
      * Donne le degré minimal parmi les degrés des sommets du graphe
+     *
      * @return Le degré minimal dans le graphe
      */
     public int degreMinimal() {
@@ -89,6 +93,7 @@ public class GrapheOriente {
 
     /**
      * Donne le degré maximal parmi les degrés des sommets du graphe
+     *
      * @return Le degré maximal dans le graphe
      */
     public int degreMaximal() {
@@ -118,22 +123,22 @@ public class GrapheOriente {
         TreeSet<String> s = new TreeSet<>();
         s = this.sommetsSources(e);
 
-        System.out.println( "------------ \n" + "e = " + e);
-        System.out.println("s = " + s);
-        System.out.println("lvs = " + lvs + "\n ------------");
+//        System.out.println( "------------ \n" + "e = " + e);
+//        System.out.println("s = " + s);
+//        System.out.println("lvs = " + lvs + "\n ------------");
 
         // PROGRAMME
-        while (!s.isEmpty()) {
+        while (! s.isEmpty()) {
             String courant = s.pollFirst();
             for (String i : lvs.get(courant)) {
 
-                System.out.println("/" + courant);
-                System.out.println(i);
-                System.out.println("e="+e);
-                System.out.println("s="+s);
-                System.out.println(num);
+//                System.out.println("/" + courant);
+//                System.out.println(i);
+//                System.out.println("e="+e);
+//                System.out.println("s="+s);
+//                System.out.println(num);
 
-                e.put(i, Integer.valueOf(e.get(i)-1));
+                e.put(i, Integer.valueOf(e.get(i) - 1));
                 if (e.get(i) == 0) {
                     s.add(i);
                 }

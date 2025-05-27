@@ -46,6 +46,7 @@ public class Scenario {
 
     /**
      * Accesseur de VendeurList
+     *
      * @return la liste des vendeurs du scénario
      */
     public List<String> getVendeurList() {
@@ -54,6 +55,7 @@ public class Scenario {
 
     /**
      * Accesseur de AcheteurList
+     *
      * @return la liste des acheteurs du scénario
      */
     public List<String> getAcheteurList() {
@@ -76,9 +78,10 @@ public class Scenario {
      * Exemple : Transforme [Bulbizarre, Herbizarre, Florizarre, Salamèche]
      * En : [Brest+, Perpignan+, Brest+, Lille+] si mettrePlus est à true
      * Sinon en : [Brest-, Perpignan-, Brest-, Lille-]
-     * @param membres Liste des membres à transformer
+     *
+     * @param membres    Liste des membres à transformer
      * @param mettrePlus Boolean qui indique si le signe est "+" ou "-"
-     * @return La Liste des membres transformée en ville avec le symbole adéquate
+     * @return La Liste des membres transformés en ville avec le symbole adéquate
      */
     private List<String> transformationVille(List<String> membres, boolean mettrePlus) {
         List<String> villes = new ArrayList<>();
@@ -96,6 +99,7 @@ public class Scenario {
 
     /**
      * Accesseur de VendeurListDouble
+     *
      * @return une liste de villes doublées
      */
     public List<String> getVendeurListDouble() {
@@ -104,6 +108,7 @@ public class Scenario {
 
     /**
      * Accesseur de AcheteurListDouble
+     *
      * @return une liste de villes doublées
      */
     public List<String> getAcheteurListDouble() {
@@ -112,6 +117,7 @@ public class Scenario {
 
     /**
      * Affecte aux champs correspondant le chemin topologique et la longueur de ce chemin
+     *
      * @param chemin Le chemin topologique
      */
     public void setTrieTopologiqueSimple(List<String> chemin) {
@@ -122,6 +128,7 @@ public class Scenario {
 
     /**
      * Donne la longueur du chemin à partir des constantes DISTANCESVILLES et VILLES
+     *
      * @param chemin Une liste de villes
      * @return la somme des longueurs entre chaque ville de la liste et ajoute la distance entre Vélizy et la ville de départ et d'arrivé
      */
