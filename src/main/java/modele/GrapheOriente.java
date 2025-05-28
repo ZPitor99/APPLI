@@ -193,7 +193,7 @@ public class GrapheOriente {
 
     /**
      * Donne la liste de ville à parcourir pour effectuer le chemin topologique de manière gloutonne, c'est-à-dire
-     * avec optimisation locale : prendre la ville la plus proche dans la liste des sources
+     * avec optimisation locale : prendre la ville la plus proche de la ville courante dans la liste des sources
      *
      * @return une arraylist de ville constituant le chemin topologique de manière gloutonne
      */

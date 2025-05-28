@@ -6,7 +6,7 @@ import java.io.IOException;
 public class ClientModele {
     public static void main(String[] args) throws IOException {
 
-        Scenario sc0 = new Scenario(new File("scenario" + File.separator + "scenario_8.txt"));
+        Scenario sc0 = new Scenario(new File("scenario" + File.separator + "scenario_0.txt"));
         sc0.setListDouble();
         //System.out.println(villes);
         //System.out.println(distancesVilles);

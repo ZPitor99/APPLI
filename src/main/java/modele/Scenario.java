@@ -134,11 +134,12 @@ public class Scenario {
      */
     private Integer longeurChemin(List<String> chemin) {
         Integer longueur = 0;
-        longueur += DISTANCES_VILLES.get(VILLES.indexOf("Velizy")).get(VILLES.indexOf(chemin.getFirst().substring(0, chemin.getFirst().length() - 1)));
+        longueur += DISTANCES_VILLES.get(VILLES.get("Velizy")).get(VILLES.get(chemin.getFirst().substring(0, chemin.getFirst().length() - 1)));
         for (int i = 0; i < chemin.size() - 1; i++) {
-            longueur += DISTANCES_VILLES.get(VILLES.indexOf(chemin.get(i).substring(0, chemin.get(i).length() - 1))).get(VILLES.indexOf(chemin.get(i + 1).substring(0, chemin.get(i + 1).length() - 1)));
+            longueur += DISTANCES_VILLES.get(VILLES.get(chemin.get(i).substring(0, chemin.get(i).length() - 1))).get(VILLES.get(chemin.get(i + 1).substring(0, chemin.get(i + 1).length() - 1)));
         }
-        longueur += DISTANCES_VILLES.get(VILLES.indexOf(chemin.getLast().substring(0, chemin.getLast().length() - 1))).get(VILLES.indexOf("Velizy"));
+        longueur += DISTANCES_VILLES.get(VILLES.get(chemin.getLast().substring(0, chemin.getLast().length() - 1))).get(VILLES.get("Velizy"));
+        System.out.println(longueur);
         return longueur;
     }
 }

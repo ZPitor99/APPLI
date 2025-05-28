@@ -2,13 +2,11 @@ package modele;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class LectureDistance {
 
-    public static List<String> VILLES;
+    public static HashMap<String, Integer> VILLES;
 
     static {
         try {
@@ -36,15 +34,17 @@ public class LectureDistance {
      * @return une liste de ville
      * @throws FileNotFoundException
      */
-    private static ArrayList<String> setVilles() throws FileNotFoundException {
-        ArrayList<String> villeList = new ArrayList<>();
+    private static HashMap<String, Integer> setVilles() throws FileNotFoundException {
+        HashMap<String, Integer> villeList = new HashMap<>();
         Scanner scanner = new Scanner(new File("donnees" + File.separator + "distances.txt"));
         Scanner scannerLine;
+        Integer numLigne = 0;
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             scannerLine = new Scanner(line).useDelimiter(" ");
-            villeList.add(scannerLine.next());
+            villeList.put(scannerLine.next(), numLigne);
+            numLigne++;
         }
         scanner.close();
         return villeList;
@@ -92,8 +92,8 @@ public class LectureDistance {
      *
      * @return une arrayList des villes
      */
-    public List<String> getVilles() {
-        return VILLES;
+    public Set<String> getVilles() {
+        return VILLES.keySet();
     }
 
     @Override
@@ -105,16 +105,6 @@ public class LectureDistance {
                 "villes=" + VILLES +
                 ",\ndistancesVilles=" + DISTANCES_VILLES +
                 '}';
-    }
-
-    /**
-     * Donne le nom de la ville à l'indice donné
-     *
-     * @param index l'indice de la ville dans la liste des villes
-     * @return Le Nom de la ville à cet indice
-     */
-    public String getVille(int index) {
-        return getVilles().get(index);
     }
 
     /**
@@ -144,8 +134,8 @@ public class LectureDistance {
      * @return la distance entre ces deux villes
      */
     public Integer DistanceVille(String villeDepart, String villeArrive) {
-        int indexDepart = getVilles().indexOf(villeDepart);
-        int indexArrive = getVilles().indexOf(villeArrive);
+        int indexDepart = VILLES.get(villeDepart);
+        int indexArrive = VILLES.get(villeArrive);
 
         return DistanceVille(indexDepart, indexArrive);
     }
