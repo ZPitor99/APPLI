@@ -2,6 +2,9 @@ package modele;
 
 import java.util.*;
 
+import static modele.LectureDistance.DISTANCES_VILLES;
+import static modele.LectureDistance.VILLES;
+
 public class GrapheOriente {
     TreeMap<String, Set<String>> voisinsSortant;
 
@@ -193,11 +196,12 @@ public class GrapheOriente {
 
     /**
      * Donne la liste de ville à parcourir pour effectuer le chemin topologique de manière gloutonne, c'est-à-dire
-     * avec optimisation locale : prendre la ville la plus proche de la ville courante dans la liste des sources
+     * avec optimisation locale : prendre la ville la plus proche de la ville courante dans la liste des sources,
+     * cela revient à partir de là où je suis, à aller dans la ville la plus proche parmi les villes où je dois aller possible.
      *
      * @return une arraylist de ville constituant le chemin topologique de manière gloutonne
      */
-    public ArrayList<String> trieTopologiqueGlouton () {
+    public ArrayList<String> trieTopologiqueGlouton() {
         // NUM
         ArrayList<String> num = new ArrayList<>();
 
@@ -215,13 +219,19 @@ public class GrapheOriente {
         TreeSet<String> s = new TreeSet<>();
         s = this.sommetsSources(e);
 
+        // Mettre courant à Velizy "départ"
+        String courant = "Velizy+";
+
 //        System.out.println( "------------ \n" + "e = " + e);
 //        System.out.println("s = " + s);
 //        System.out.println("lvs = " + lvs + "\n ------------");
 
         // PROGRAMME
         while (! s.isEmpty()) {
-            String courant = s.pollFirst();
+            // Optimisation locale
+            courant = getPlusProche(s, courant);
+            s.remove(courant);
+            //---
             for (String i : lvs.get(courant)) {
 
 //                System.out.println("/" + courant);
@@ -239,5 +249,30 @@ public class GrapheOriente {
         }
         System.out.println(num);
         return num;
+    }
+
+    /**
+     * Donne la ville la plus proche de la ville courante parmi les sources de sourcesAuxChoix
+     * à partir des distances de la constante DISTANCES_VILLES
+     *
+     * @param sourcesAuChoix Liste des sources actuelles (villes où l'on peut aller)
+     * @param courantActuel  La ville actuelle
+     * @return Le nom de la ville la plus proche de la ville actuel das les sourcesAuChoix
+     */
+    private String getPlusProche(Set<String> sourcesAuChoix, String courantActuel) {
+        if (sourcesAuChoix.isEmpty())
+            return null;
+
+        String plusProche = null;
+        Integer minDist = Integer.MAX_VALUE;
+        for (String candidate : sourcesAuChoix) {
+            //System.out.println(candidate + " " + courantActuel + " " + VILLES.get(candidate.substring(0, candidate.length() - 1)) + " " + VILLES.get(courantActuel.substring(0, courantActuel.length() - 1)));
+            Integer dist = DISTANCES_VILLES.get(VILLES.get(courantActuel.substring(0, courantActuel.length() - 1))).get(VILLES.get(candidate.substring(0, candidate.length() - 1)));
+            if (dist < minDist) {
+                minDist = dist;
+                plusProche = candidate;
+            }
+        }
+        return plusProche;
     }
 }

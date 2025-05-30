@@ -31,6 +31,7 @@ public class LectureDistance {
 
     /**
      * Donne la liste des villes lue dans le fichier /donnees/distances.txt
+     *
      * @return une liste de ville
      * @throws FileNotFoundException
      */

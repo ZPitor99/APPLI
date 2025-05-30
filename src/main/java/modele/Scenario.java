@@ -20,6 +20,9 @@ public class Scenario {
     public List<String> trieTopologiqueSimple;
     public Integer trieTopologiqueSimpleLongueur;
 
+    public List<String> trieTopologiqueGlouton;
+    public Integer trieTopologiqueGloutonLongueur;
+
     public Scenario(File fichier) throws FileNotFoundException {
         Scanner scanner = new Scanner(fichier);
         Scanner scannerLine;
@@ -117,13 +120,24 @@ public class Scenario {
 
     /**
      * Affecte aux champs correspondant le chemin topologique et la longueur de ce chemin
+     * (Champ trieTopologiqueSimple et trieTopologiqueSimpleLongueur)
      *
-     * @param chemin Le chemin topologique
+     * @param chemin Le chemin topologique calculé de manière simple
      */
     public void setTrieTopologiqueSimple(List<String> chemin) {
         trieTopologiqueSimple = chemin;
         trieTopologiqueSimpleLongueur = longeurChemin(trieTopologiqueSimple);
+    }
 
+    /**
+     * Affecte aux champs correspondant le chemin topologique et la longueur de ce chemin
+     * (Champ trieTopologiqueGlouton et trieTopologiqueGloutonLongueur)
+     *
+     * @param chemin Le chemin topologique calculé de manière gloutonne
+     */
+    public void setTrieTopologiqueGlouton(List<String> chemin) {
+        trieTopologiqueGlouton = chemin;
+        trieTopologiqueGloutonLongueur = longeurChemin(trieTopologiqueGlouton);
     }
 
     /**

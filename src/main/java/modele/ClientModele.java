@@ -14,5 +14,6 @@ public class ClientModele {
         //System.out.println(sc0);
         GrapheOriente g = new GrapheOriente(sc0.getVendeurListDouble(), sc0.getAcheteurListDouble());
         sc0.setTrieTopologiqueSimple(g.trieTopologique());
+        sc0.setTrieTopologiqueGlouton(g.trieTopologiqueGlouton());
     }
 }
