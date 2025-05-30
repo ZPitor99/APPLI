@@ -6,17 +6,16 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioMenuItem;
 import javafx.stage.WindowEvent;
+import modele.GrapheOriente;
 import modele.Scenario;
 import modele.ScenarioTableItem;
 import vue.HBoxRoot;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Objects;
 import java.util.Optional;
 
 
@@ -27,6 +26,20 @@ public class Controleur implements EventHandler {
             RadioMenuItem menuItem = (RadioMenuItem) event.getSource();
             String nomFichier = (String) menuItem.getUserData();
             chargerScenario(nomFichier);
+
+            String nomScenario = menuItem.getText();
+            File scFile = new File("scenario" + File.separator + toNomFichier(nomScenario));
+            try {
+                Scenario sc = new Scenario(scFile);
+                System.out.println(sc);
+                sc.setListDouble();
+                GrapheOriente g = new GrapheOriente(sc.getVendeurListDouble(), sc.getAcheteurListDouble());
+                sc.setTrieTopologiqueSimple(g.trieTopologique());
+                sc.setTrieTopologiqueGlouton(g.trieTopologiqueGlouton());
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
@@ -65,7 +78,7 @@ public class Controleur implements EventHandler {
     /**
      * Affiche une fenetre de confirmation avant de quitter l'application
      *
-     * @param event
+     * @param event événement
      */
     public void handleWindowClose(WindowEvent event) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -89,5 +102,21 @@ public class Controleur implements EventHandler {
         }
 
 
+    }
+
+    /**
+     *Traite la string pour changer les espaces en _ et ajouté .txt en fin de string
+     *
+     * @param nomScenario Une chaine de character avec des espaces
+     * @return Une chaine de character pour être un nom de fichier.txt
+     */
+    private String toNomFichier(String nomScenario){
+        System.out.println(nomScenario);
+        StringBuilder nomFichier = new StringBuilder();
+
+        nomFichier.append(nomScenario.substring(1).replace(" ", "_"));
+        nomFichier.append(".txt");
+        System.out.println(nomFichier);
+        return nomFichier.toString();
     }
 }
