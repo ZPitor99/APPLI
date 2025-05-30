@@ -14,24 +14,30 @@ public class AffichageChemin extends VBox {
         super(10);
 
         Label cheminTitre = new Label("Chemins");
-        cheminTitre.setStyle("-fx-font-weight: bold");
+        cheminTitre.setId("titrePartie");
 
         Label cheminSimple = new Label("Chemin Simple");
+        cheminSimple.setId("titreChemin");
         TextFlow tfCheminSimple = new TextFlow();
         tfCheminSimple.setPrefWidth(200);
         tCheminSimple = new Text("Vélizy");
+        tCheminSimple.setId("contenuChemin");
         tfCheminSimple.getChildren().add(tCheminSimple);
 
         Label cheminHeuristique = new Label("Chemin Heuristique");
+        cheminHeuristique.setId("titreChemin");
         TextFlow tfCheminHeuristique = new TextFlow();
         tfCheminSimple.setPrefWidth(200);
         tCheminHeuristique = new Text("Vélizy");
+        tCheminHeuristique.setId("contenuChemin");
         tfCheminHeuristique.getChildren().add(tCheminHeuristique);
 
         Label cheminOptimal = new Label("Chemin Optimal");
+        cheminOptimal.setId("titreChemin");
         TextFlow tfCheminOptimal = new TextFlow();
         tfCheminSimple.setPrefWidth(200);
         tCheminOptimal = new Text("Vélizy");
+        tCheminOptimal.setId("contenuChemin");
         tfCheminOptimal.getChildren().add(tCheminOptimal);
 
         this.getChildren().addAll(cheminTitre, cheminSimple, tfCheminSimple, cheminHeuristique, tfCheminHeuristique, cheminOptimal, tfCheminOptimal);

@@ -2,9 +2,11 @@ package vue;
 
 import controleur.Controleur;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -13,8 +15,9 @@ import java.util.Objects;
 public class ClientApplication extends Application {
     @Override
     public void start(Stage stage) {
-        HBox root = new HBoxRoot();
-        Scene scene = new Scene(root, 1200, 600);
+        VBox root = new HBoxRoot();
+        root.setPadding(new Insets(0, 10, 0, 10));
+        Scene scene = new Scene(root, 1200, 800);
         stage.setScene(scene);
         stage.setTitle("APPLI");
         stage.setResizable(true);

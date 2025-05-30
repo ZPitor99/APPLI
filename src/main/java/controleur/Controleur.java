@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioMenuItem;
 import javafx.stage.WindowEvent;
@@ -15,6 +16,7 @@ import vue.HBoxRoot;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -71,6 +73,13 @@ public class Controleur implements EventHandler {
         alert.setHeaderText("Êtes-vous certain de vouloir quitter ?");
         alert.setContentText("Toutes les données non sauvegardées seront perdues.");
 
+        //CSS et ID
+        alert.getDialogPane().setId("alert-dialog");
+        alert.getDialogPane().lookup(".header-panel").setId("alert-title");
+        alert.getDialogPane().lookup(".content.label").setId("alert-content");
+        File css = new File("css" + File.separator + "style.css");
+        alert.getDialogPane().getStylesheets().add(css.toURI().toString());
+
         alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
 
         Optional<ButtonType> result = alert.showAndWait();
@@ -78,5 +87,7 @@ public class Controleur implements EventHandler {
         if (result.isEmpty() || result.get() == ButtonType.NO) {
             event.consume();
         }
+
+
     }
 }

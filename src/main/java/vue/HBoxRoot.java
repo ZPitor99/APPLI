@@ -8,10 +8,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import static modele.ConstanteVue.LIST_NOM_SCENARIO;
 
-public class HBoxRoot extends HBox {
+public class HBoxRoot extends VBox {
 
     private static Controleur controleur = new Controleur();
     private static AffichageScenario affichageScenario = new AffichageScenario();
@@ -40,7 +41,11 @@ public class HBoxRoot extends HBox {
         this.getChildren().add(menuBar);
 
         //Vues
-        this.getChildren().addAll(affichageScenario, affichageChemin);
+        HBox main = new HBox(20);
+        main.setSpacing(40);
+        main.setPrefSize(500, 600);
+        main.getChildren().addAll(affichageScenario, affichageChemin);
+        this.getChildren().add(main);
     }
 
     public static Controleur getControleur() {
