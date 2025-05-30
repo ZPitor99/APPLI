@@ -2,7 +2,6 @@ package modele;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public class ClientModele {
     public static void main(String[] args) throws IOException {

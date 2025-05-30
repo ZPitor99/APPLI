@@ -76,6 +76,40 @@ public class Scenario {
         acheteurListDouble = transformationVille(acheteurList, false);
     }
 
+    public ArrayList<String> getTrieTopologiqueSimple() {
+        return getCheminToString(trieTopologiqueSimple);
+    }
+
+    public Integer getTrieTopologiqueSimpleLongueur() {
+        return trieTopologiqueSimpleLongueur;
+    }
+
+    public ArrayList<String> getTrieTopologiqueGlouton() {
+        return getCheminToString(trieTopologiqueGlouton);
+    }
+
+    public Integer getTrieTopologiqueGloutonLongueur() {
+        return trieTopologiqueGloutonLongueur;
+    }
+
+    /**
+     * Transforme un chemin de string avec un caractère supplémentaire en un chemin de ville
+     * sans caractère supplémentaire et en fusionnant en un deux villes consécutives avec caractère supplémentaire
+     *
+     * @param chemin Un chemin de ville avec des villes+ et villes-
+     * @return la liste des villes transformées
+     */
+    private ArrayList<String> getCheminToString(List<String> chemin) {
+        ArrayList<String> cheminVilles = new ArrayList<>();
+        cheminVilles.add(chemin.getFirst().substring(0, chemin.getFirst().length() - 1));
+        for (int i = 1; i < chemin.size(); i++) {
+            if (!cheminVilles.getLast().equals(chemin.get(i).substring(0, chemin.get(i).length() - 1))) {
+                cheminVilles.add(chemin.get(i).substring(0, chemin.get(i).length() - 1));
+            }
+        }
+        return cheminVilles;
+    }
+
     /**
      * Donne à partir d'une liste de la liste des villes dans les quel se trouvent chacun des membres de la liste
      * Exemple : Transforme [Bulbizarre, Herbizarre, Florizarre, Salamèche]

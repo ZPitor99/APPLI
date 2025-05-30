@@ -12,6 +12,7 @@ import javafx.stage.WindowEvent;
 import modele.GrapheOriente;
 import modele.Scenario;
 import modele.ScenarioTableItem;
+import vue.AffichageChemin;
 import vue.HBoxRoot;
 
 import java.io.File;
@@ -36,6 +37,10 @@ public class Controleur implements EventHandler {
                 GrapheOriente g = new GrapheOriente(sc.getVendeurListDouble(), sc.getAcheteurListDouble());
                 sc.setTrieTopologiqueSimple(g.trieTopologique());
                 sc.setTrieTopologiqueGlouton(g.trieTopologiqueGlouton());
+                HBoxRoot.getAffichageChemin().majCheminSimple(sc.getTrieTopologiqueSimple().toString() + "\n"
+                        + "Distance de parcours en kilomètre: " + sc.getTrieTopologiqueSimpleLongueur().toString());
+                HBoxRoot.getAffichageChemin().majCheminHeuristique(sc.getTrieTopologiqueGlouton().toString() + "\n"
+                        + "Distance de parcours en kilomètre: " + sc.getTrieTopologiqueGloutonLongueur().toString());
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }

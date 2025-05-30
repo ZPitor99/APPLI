@@ -19,7 +19,12 @@ public class AffichageChemin extends VBox {
         Label cheminSimple = new Label("Chemin Simple");
         cheminSimple.setId("titreChemin");
         TextFlow tfCheminSimple = new TextFlow();
-        tfCheminSimple.setPrefWidth(200);
+        tfCheminSimple.setPrefWidth(400);
+        tfCheminSimple.setMaxWidth(400);
+        tfCheminSimple.setMinWidth(400);
+        tfCheminSimple.setPrefHeight(160);
+        tfCheminSimple.setMaxHeight(160);
+        tfCheminSimple.setMinHeight(160);
         tCheminSimple = new Text("Vélizy");
         tCheminSimple.setId("contenuChemin");
         tfCheminSimple.getChildren().add(tCheminSimple);
@@ -27,7 +32,12 @@ public class AffichageChemin extends VBox {
         Label cheminHeuristique = new Label("Chemin Heuristique");
         cheminHeuristique.setId("titreChemin");
         TextFlow tfCheminHeuristique = new TextFlow();
-        tfCheminSimple.setPrefWidth(200);
+        tfCheminHeuristique.setPrefWidth(400);
+        tfCheminHeuristique.setMaxWidth(400);
+        tfCheminHeuristique.setMinWidth(400);
+        tfCheminHeuristique.setPrefHeight(160);
+        tfCheminHeuristique.setMaxHeight(160);
+        tfCheminHeuristique.setMinHeight(160);
         tCheminHeuristique = new Text("Vélizy");
         tCheminHeuristique.setId("contenuChemin");
         tfCheminHeuristique.getChildren().add(tCheminHeuristique);
@@ -35,12 +45,24 @@ public class AffichageChemin extends VBox {
         Label cheminOptimal = new Label("Chemin Optimal");
         cheminOptimal.setId("titreChemin");
         TextFlow tfCheminOptimal = new TextFlow();
-        tfCheminSimple.setPrefWidth(200);
+        tfCheminOptimal.setPrefWidth(400);
+        tfCheminOptimal.setMaxWidth(400);
+        tfCheminOptimal.setMinWidth(400);
+        tfCheminOptimal.setPrefHeight(160);
+        tfCheminOptimal.setMaxHeight(160);
+        tfCheminOptimal.setMinHeight(160);
         tCheminOptimal = new Text("Vélizy");
         tCheminOptimal.setId("contenuChemin");
         tfCheminOptimal.getChildren().add(tCheminOptimal);
 
         this.getChildren().addAll(cheminTitre, cheminSimple, tfCheminSimple, cheminHeuristique, tfCheminHeuristique, cheminOptimal, tfCheminOptimal);
+    }
 
+    public void majCheminSimple(String cheminSimple) {
+        tCheminSimple.setText(cheminSimple);
+    }
+
+    public void majCheminHeuristique(String cheminHeuristique) {
+        tCheminHeuristique.setText(cheminHeuristique);
     }
 }
