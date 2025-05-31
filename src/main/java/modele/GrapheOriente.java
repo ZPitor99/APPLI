@@ -275,4 +275,19 @@ public class GrapheOriente {
         }
         return plusProche;
     }
+
+    public List<List<String>> trieTopologiqueOptimal(int k){
+        // DEGRES ENTRANT
+        // sommet+ et int
+        TreeMap<String, Integer> e = new TreeMap<String, Integer>();
+        e = this.getDegreEntrant();
+
+        //TOUS LES CHEMINS TROUVES
+        List<List<String>> resultats = new ArrayList<>();
+
+        //LE RESULTAT
+        List<List<String>> resultat = new ArrayList<>();
+
+        return resultat;
+    }
 }

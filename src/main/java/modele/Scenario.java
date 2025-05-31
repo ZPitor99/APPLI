@@ -23,6 +23,9 @@ public class Scenario {
     public List<String> trieTopologiqueGlouton;
     public Integer trieTopologiqueGloutonLongueur;
 
+    public List<String> trieTopologiqueOptimal;
+    public Integer trieTopologiqueOptimalLongueur;
+
     public Scenario(File fichier) throws FileNotFoundException {
         Scanner scanner = new Scanner(fichier);
         Scanner scannerLine;

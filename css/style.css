@@ -2,14 +2,14 @@
 /*
  * Palette de couleurs :
  * - Bleu foncé : #0D2B35 (couleur principale)
- * - Beige clair : #F3E9E2 (arrière-plan)
+ * - Beige clair : #DBCFC6 (arrière-plan)
  * - Marron clair : #C9886B (accent)
  */
 
 
 /*STYLES GLOBAUX*/
 .root {
-    -fx-background-color: #F3E9E2;
+    -fx-background-color: #DBCFC6;
     -fx-font-family: "Segoe UI", "Arial", sans-serif;
     -fx-font-size: 14px;
     -fx-text-fill: #0D2B35;
@@ -17,12 +17,12 @@
 
 /*CONTENEURS PRINCIPAUX*/
 .hbox {
-    -fx-background-color: #F3E9E2;
+    -fx-background-color: #DBCFC6;
     -fx-padding: 10px;
 }
 
 .vbox {
-    -fx-background-color: #F3E9E2;
+    -fx-background-color: #DBCFC6;
     -fx-padding: 10px;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .menu-bar .menu {
-    -fx-background-color: #F3E9E2;
+    -fx-background-color: #DBCFC6;
     -fx-font-weight: bold;
     -fx-font-size: 15px;
 }
@@ -49,13 +49,13 @@
 .menu-bar .menu:focused {
     -fx-background-color: #C9886B;
     -fx-background-radius: 4px;
-    -fx-border-color: #F3E9E2;
+    -fx-border-color: #DBCFC6;
     -fx-border-width: 2px;
     -fx-border-radius: 4px;
 }
 
 .context-menu {
-    -fx-background-color: #F3E9E2;
+    -fx-background-color: #DBCFC6;
     -fx-border-color: #0D2B35;
     -fx-border-width: 1px;
     -fx-background-radius: 6px;
@@ -71,18 +71,18 @@
 
 .radio-menu-item:hover {
     -fx-background-color: #C9886B;
-    -fx-text-fill: #F3E9E2;
+    -fx-text-fill: #DBCFC6;
 }
 
 .radio-menu-item:selected {
     -fx-background-color: #0D2B35;
-    -fx-text-fill: #F3E9E2;
+    -fx-text-fill: #DBCFC6;
     -fx-font-weight: bold;
 }
 
 .radio-menu-item:focused {
     -fx-background-color: #C9886B;
-    -fx-text-fill: #F3E9E2;
+    -fx-text-fill: #DBCFC6;
     -fx-border-color: #0D2B35;
     -fx-border-width: 2px;
     -fx-border-radius: 3px;
@@ -128,7 +128,7 @@
 
 /*TABLEAU*/
 .table-view {
-    -fx-background-color: #F3E9E2;
+    -fx-background-color: #DBCFC6;
     -fx-border-color: #C9886B;
     -fx-border-width: 2px;
     -fx-border-radius: 8px;
@@ -138,7 +138,7 @@
 
 .table-view .column-header {
     -fx-background-color: #0D2B35;
-    -fx-text-fill: #F3E9E2;
+    -fx-text-fill: #DBCFC6;
     -fx-font-weight: bold;
     -fx-font-size: 15px;
     -fx-padding: 12px 8px;
@@ -147,12 +147,12 @@
 }
 
 .table-view .column-header-background .label {
-    -fx-text-fill: #F3E9E2;
+    -fx-text-fill: #DBCFC6;
     -fx-font-weight: bold;
 }
 
 .table-view .column-header .label {
-    -fx-text-fill: #F3E9E2;
+    -fx-text-fill: #DBCFC6;
     -fx-font-weight: bold;
     -fx-font-size: 15px;
 }
@@ -163,7 +163,7 @@
 
 .table-view .column-header:focused {
     -fx-background-color: #C9886B;
-    -fx-border-color: #F3E9E2;
+    -fx-border-color: #DBCFC6;
     -fx-border-width: 2px;
 }
 
@@ -176,7 +176,7 @@
 }
 
 .table-view .table-row-cell {
-    -fx-background-color: #F3E9E2;
+    -fx-background-color: #DBCFC6;
     -fx-min-height: 40px;
     -fx-pref-height: 40px;
 }
@@ -193,11 +193,11 @@
 
 .table-view .table-row-cell:selected {
     -fx-background-color: #C9886B;
-    -fx-text-fill: #F3E9E2;
+    -fx-text-fill: #DBCFC6;
 }
 
 .table-view .table-row-cell:selected .table-cell {
-    -fx-text-fill: #F3E9E2;
+    -fx-text-fill: #DBCFC6;
     -fx-font-weight: bold;
 }
 
@@ -268,7 +268,6 @@
 }
 
 
-
 /*RESPONSIVE DESIGN*/
 @media (max-width: 800px) {
     .root {
@@ -286,7 +285,7 @@
 
 /*ALERTES*/
 #alert-dialog {
-    -fx-background-color: #F3E9E2;
+    -fx-background-color: #DBCFC6;
     -fx-background-radius: 8px;
     -fx-effect: dropshadow(three-pass-box, rgba(13, 43, 53, 0.2), 10, 0, 0, 3);
 }
@@ -307,7 +306,7 @@
 }
 
 .alert .button-bar {
-    -fx-background-color: #F3E9E2;
+    -fx-background-color: #DBCFC6;
     -fx-padding: 10px 20px 15px 20px;
 }
 
@@ -320,23 +319,23 @@
     -fx-border-radius: 5px;
     -fx-min-width: 80px;
     -fx-cursor: hand;
-    -fx-text-fill: #F3E9E2;
+    -fx-text-fill: #DBCFC6;
 }
 
 .alert .button:hover {
-    -fx-text-fill: #F3E9E2;
+    -fx-text-fill: #DBCFC6;
     -fx-background-color: #0D2B35;
     -fx-effect: dropshadow(one-pass-box, rgba(201, 136, 107, 0.4), 3, 0, 0, 1);
 }
 
 .alert .button:focused {
-    -fx-text-fill: #F3E9E2;
+    -fx-text-fill: #DBCFC6;
     -fx-background-color: #0D2B35;
 }
 
 .alert .button:pressed {
     -fx-background-color: #0D2B35;
-    -fx-text-fill: #F3E9E2;
+    -fx-text-fill: #DBCFC6;
 }
 
 /*
