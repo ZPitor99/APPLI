@@ -276,18 +276,81 @@ public class GrapheOriente {
         return plusProche;
     }
 
-    public List<List<String>> trieTopologiqueOptimal(int k){
-        // DEGRES ENTRANT
-        // sommet+ et int
-        TreeMap<String, Integer> e = new TreeMap<String, Integer>();
-        e = this.getDegreEntrant();
+    /**
+     * Génère tous les chemins topologiques possibles du graphe
+     *
+     * @param k nombre maximum de chemins à retourner
+     * @return liste de tous les chemins topologiques possibles
+     */
+    public List<List<String>> trieTopologiqueOptimal(int k) {
+        TreeMap<String, Integer> degreEntrant = this.getDegreEntrant();
+        TreeSet<String> sources = this.sommetsSources(degreEntrant);
 
-        //TOUS LES CHEMINS TROUVES
-        List<List<String>> resultats = new ArrayList<>();
+        List<List<String>> tousLesChemins = new ArrayList<>();
+        List<String> cheminActuel = new ArrayList<>();
 
-        //LE RESULTAT
-        List<List<String>> resultat = new ArrayList<>();
+        retourTopologique(degreEntrant, sources, cheminActuel, tousLesChemins);
 
-        return resultat;
+        System.out.println("Tous les chemins trouvés: " + tousLesChemins);
+
+        // Optionnel: limiter à k chemins et/ou trier par longueur
+        if (k > 0 && tousLesChemins.size() > k) {
+            // Trier par longueur du chemin (plus court en premier)
+            tousLesChemins.sort((chemin1, chemin2) ->
+                    Integer.compare(longeurChemin(chemin1), longeurChemin(chemin2)));
+            return tousLesChemins.subList(0, k);
+        }
+
+        return tousLesChemins;
+    }
+
+    /**
+     * Méthode récursive pour générer tous les chemins topologiques
+     *
+     * @param degreEntrant   degrés entrants actuels de chaque sommet
+     * @param sources        sommets actuellement disponibles (degré entrant = 0)
+     * @param cheminActuel   chemin en cours de construction
+     * @param tousLesChemins liste pour stocker tous les chemins complets trouvés
+     */
+    private void retourTopologique(TreeMap<String, Integer> degreEntrant,
+                                   TreeSet<String> sources,
+                                   List<String> cheminActuel,
+                                   List<List<String>> tousLesChemins) {
+
+        // Condition d'arrêt : plus de sources disponibles
+        if (sources.isEmpty()) {
+            // Vérifier si tous les sommets ont été visités
+            if (cheminActuel.size() == this.ordre()) {
+                tousLesChemins.add(new ArrayList<>(cheminActuel));
+            }
+            return;
+        }
+
+        for (String sommetCourant : new TreeSet<>(sources)) { // Copie pour éviter ConcurrentModificationException
+
+
+            //COPIES
+            TreeMap<String, Integer> nouveauDegreEntrant = new TreeMap<>(degreEntrant);
+            TreeSet<String> nouvellesSources = new TreeSet<>(sources);
+            List<String> nouveauChemin = new ArrayList<>(cheminActuel);
+
+            nouvellesSources.remove(sommetCourant);
+            nouveauChemin.add(sommetCourant);
+
+            for (String voisin : voisinsSortant.get(sommetCourant)) {
+                int nouveauDegre = nouveauDegreEntrant.get(voisin) - 1;
+                nouveauDegreEntrant.put(voisin, nouveauDegre);
+
+                if (nouveauDegre == 0) {
+                    nouvellesSources.add(voisin);
+                }
+            }
+
+            retourTopologique(nouveauDegreEntrant, nouvellesSources, nouveauChemin, tousLesChemins);
+        }
+    }
+
+    private int longeurChemin(List<String> chemin) {
+        return Scenario.longeurChemin(chemin);
     }
 }

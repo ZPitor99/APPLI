@@ -23,8 +23,8 @@ public class Scenario {
     public List<String> trieTopologiqueGlouton;
     public Integer trieTopologiqueGloutonLongueur;
 
-    public List<String> trieTopologiqueOptimal;
-    public Integer trieTopologiqueOptimalLongueur;
+    public List<List<String>> trieTopologiqueOptimal;
+    public List<Integer> trieTopologiqueOptimalLongueur;
 
     public Scenario(File fichier) throws FileNotFoundException {
         Scanner scanner = new Scanner(fichier);
@@ -102,7 +102,7 @@ public class Scenario {
      * @param chemin Un chemin de ville avec des villes+ et villes-
      * @return la liste des villes transformées
      */
-    private ArrayList<String> getCheminToString(List<String> chemin) {
+    public static ArrayList<String> getCheminToString(List<String> chemin) {
         ArrayList<String> cheminVilles = new ArrayList<>();
         cheminVilles.add(chemin.getFirst().substring(0, chemin.getFirst().length() - 1));
         for (int i = 1; i < chemin.size(); i++) {
@@ -177,20 +177,28 @@ public class Scenario {
         trieTopologiqueGloutonLongueur = longeurChemin(trieTopologiqueGlouton);
     }
 
+    public void setTrieTopologiqueOptimal(List<List<String>> chemins) {
+        trieTopologiqueOptimal = chemins;
+        ArrayList<Integer> cheminslongeur = new ArrayList<>();
+        for (List<String> chemin : chemins) {
+            cheminslongeur.add(longeurChemin(chemin));
+        }
+        trieTopologiqueOptimalLongueur = cheminslongeur;
+    }
+
     /**
      * Donne la longueur du chemin à partir des constantes DISTANCESVILLES et VILLES
      *
      * @param chemin Une liste de villes
      * @return la somme des longueurs entre chaque ville de la liste et ajoute la distance entre Vélizy et la ville de départ et d'arrivé
      */
-    private Integer longeurChemin(List<String> chemin) {
+    public static Integer longeurChemin(List<String> chemin) {
         Integer longueur = 0;
         longueur += DISTANCES_VILLES.get(VILLES.get("Velizy")).get(VILLES.get(chemin.getFirst().substring(0, chemin.getFirst().length() - 1)));
         for (int i = 0; i < chemin.size() - 1; i++) {
             longueur += DISTANCES_VILLES.get(VILLES.get(chemin.get(i).substring(0, chemin.get(i).length() - 1))).get(VILLES.get(chemin.get(i + 1).substring(0, chemin.get(i + 1).length() - 1)));
         }
         longueur += DISTANCES_VILLES.get(VILLES.get(chemin.getLast().substring(0, chemin.getLast().length() - 1))).get(VILLES.get("Velizy"));
-        System.out.println(longueur);
         return longueur;
     }
 }
