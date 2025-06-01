@@ -65,4 +65,8 @@ public class AffichageChemin extends VBox {
     public void majCheminHeuristique(String cheminHeuristique) {
         tCheminHeuristique.setText(cheminHeuristique);
     }
+
+    public void majCheminOptimal(String cheminOptimal) {
+        tCheminOptimal.setText(cheminOptimal);
+    }
 }

@@ -95,6 +95,18 @@ public class Scenario {
         return trieTopologiqueGloutonLongueur;
     }
 
+    public List<List<String>> getTrieTopologiqueOptimal() {
+        ArrayList<List<String>> trieTopologiqueOptimalVille = new ArrayList<>();
+        for (List<String> list : trieTopologiqueOptimal) {
+            trieTopologiqueOptimalVille.add(getCheminToString(list));
+        }
+        return trieTopologiqueOptimalVille;
+    }
+
+    public List<Integer> getTrieTopologiqueOptimalLongueur() {
+        return trieTopologiqueOptimalLongueur;
+    }
+
     /**
      * Transforme un chemin de string avec un caractère supplémentaire en un chemin de ville
      * sans caractère supplémentaire et en fusionnant en un deux villes consécutives avec caractère supplémentaire
@@ -177,6 +189,12 @@ public class Scenario {
         trieTopologiqueGloutonLongueur = longeurChemin(trieTopologiqueGlouton);
     }
 
+    /**
+     * Affecte aux champs correspondant les chemins topologiques et la longueur de ces chemins
+     * (Champ trieTopologiqueOptimal et trieTopologiqueOptimal)
+     *
+     * @param chemins la liste de liste des k meilleurs chemins
+     */
     public void setTrieTopologiqueOptimal(List<List<String>> chemins) {
         trieTopologiqueOptimal = chemins;
         ArrayList<Integer> cheminslongeur = new ArrayList<>();

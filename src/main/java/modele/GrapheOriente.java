@@ -154,7 +154,6 @@ public class GrapheOriente {
             }
             num.add(courant);
         }
-        System.out.println(num);
         return num;
     }
 
@@ -247,7 +246,6 @@ public class GrapheOriente {
             }
             num.add(courant);
         }
-        System.out.println(num);
         return num;
     }
 
@@ -266,7 +264,6 @@ public class GrapheOriente {
         String plusProche = null;
         Integer minDist = Integer.MAX_VALUE;
         for (String candidate : sourcesAuChoix) {
-            //System.out.println(candidate + " " + courantActuel + " " + VILLES.get(candidate.substring(0, candidate.length() - 1)) + " " + VILLES.get(courantActuel.substring(0, courantActuel.length() - 1)));
             Integer dist = DISTANCES_VILLES.get(VILLES.get(courantActuel.substring(0, courantActuel.length() - 1))).get(VILLES.get(candidate.substring(0, candidate.length() - 1)));
             if (dist < minDist) {
                 minDist = dist;
@@ -290,8 +287,6 @@ public class GrapheOriente {
         List<String> cheminActuel = new ArrayList<>();
 
         retourTopologique(degreEntrant, sources, cheminActuel, tousLesChemins);
-
-        System.out.println("Tous les chemins trouvés: " + tousLesChemins);
 
         // Optionnel: limiter à k chemins et/ou trier par longueur
         if (k > 0 && tousLesChemins.size() > k) {

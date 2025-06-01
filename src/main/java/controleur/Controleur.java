@@ -29,14 +29,22 @@ public class Controleur implements EventHandler {
             chargerScenario(nomFichier);
 
             String nomScenario = menuItem.getText();
+
             File scFile = new File("scenario" + File.separator + toNomFichier(nomScenario));
             try {
                 Scenario sc = new Scenario(scFile);
-                System.out.println(sc);
                 sc.setListDouble();
                 GrapheOriente g = new GrapheOriente(sc.getVendeurListDouble(), sc.getAcheteurListDouble());
                 sc.setTrieTopologiqueSimple(g.trieTopologique());
                 sc.setTrieTopologiqueGlouton(g.trieTopologiqueGlouton());
+                if (Integer.valueOf(nomScenario.substring(nomScenario.length()-1)) < 4) {
+                    sc.setTrieTopologiqueOptimal(g.trieTopologiqueOptimal(10));
+                    HBoxRoot.getAffichageChemin().majCheminOptimal(sc.getTrieTopologiqueOptimal() + "\n" +
+                            "Distance de parcours en kilomètre: " + sc.getTrieTopologiqueOptimalLongueur());
+                }
+                else {
+                    HBoxRoot.getAffichageChemin().majCheminOptimal("Donnée non renseignées");
+                }
                 HBoxRoot.getAffichageChemin().majCheminSimple(sc.getTrieTopologiqueSimple().toString() + "\n"
                         + "Distance de parcours en kilomètre: " + sc.getTrieTopologiqueSimpleLongueur().toString());
                 HBoxRoot.getAffichageChemin().majCheminHeuristique(sc.getTrieTopologiqueGlouton().toString() + "\n"
