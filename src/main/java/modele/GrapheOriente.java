@@ -12,16 +12,17 @@ public class GrapheOriente {
         voisinsSortant = new TreeMap<>();
         if (! depart.isEmpty() && ! arrive.isEmpty()) {
             for (int i = 0; i < depart.size(); i++) {
-                if (! voisinsSortant.containsKey(depart.get(i))) {
-                    voisinsSortant.put(depart.get(i), new TreeSet<>());
-                    voisinsSortant.get(depart.get(i)).add(arrive.get(i));
-                } else {
-                    voisinsSortant.get(depart.get(i)).add(arrive.get(i));
-                }
-                voisinsSortant.put(arrive.get(i), new TreeSet<>());
+                String deb = depart.get(i);
+                String arr = arrive.get(i);
+
+                // Ajouter l'arc de deb vers arr
+                voisinsSortant.putIfAbsent(deb, new TreeSet<>());
+                voisinsSortant.get(deb).add(arr);
+
+                // S'assurer qu'arr est présent dans la map, mais ne pas écraser si déjà présent
+                voisinsSortant.putIfAbsent(arr, new TreeSet<>());
             }
         }
-        System.out.println(voisinsSortant);
     }
 
     @Override
@@ -86,10 +87,14 @@ public class GrapheOriente {
      * @return Le degré minimal dans le graphe
      */
     public int degreMinimal() {
-        int degreMin = 0;
+        System.out.println("----------");
+        System.out.println(voisinsSortant);
+        int degreMin = Integer.MAX_VALUE;
         for (String i : listeSommets()) {
+            System.out.println(degreMin);
             if (degre(i) < degreMin)
                 degreMin = degre(i);
+            System.out.println(degreMin);
         }
         return degreMin;
     }
