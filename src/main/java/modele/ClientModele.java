@@ -7,10 +7,6 @@ public class ClientModele {
     public static void main(String[] args) throws IOException {
         Scenario sc0 = new Scenario(new File("scenario" + File.separator + "scenario_3.txt"));
         sc0.setListDouble();
-        //System.out.println(villes);
-        //System.out.println(distancesVilles);
-        //System.out.println(villeMembres);
-        //System.out.println(sc0);
         GrapheOriente g = new GrapheOriente(sc0.getVendeurListDouble(), sc0.getAcheteurListDouble());
         sc0.setTrieTopologiqueSimple(g.trieTopologique());
         sc0.setTrieTopologiqueGlouton(g.trieTopologiqueGlouton());

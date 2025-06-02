@@ -41,11 +41,6 @@ public class Scenario {
         scanner.close();
     }
 
-    public Scenario(List<String> vendeurList, List<String> acheteurList) {
-        this.vendeurList = vendeurList;
-        this.acheteurList = acheteurList;
-    }
-
     public String toString() {
         return vendeurList.toString() + "\n" + acheteurList.toString();
     }

@@ -26,6 +26,7 @@ public class HBoxRoot extends VBox {
         //Bar de Menu
         MenuBar menuBar = new MenuBar();
         Menu menuScenario = new Menu("_Scenario");
+        Menu menuFichier = new Menu("_Fichier");
         menuScenario.setMnemonicParsing(true);
         Platform.runLater(menuBar::requestFocus);
         ToggleGroup groupeScenario = new ToggleGroup();

@@ -275,9 +275,10 @@ public class GrapheOriente {
 
     /**
      * Génère tous les chemins topologiques possibles du graphe
+     * Garde les k meilleurs et évite les doublons dus au + et -
      *
      * @param k nombre maximum de chemins à retourner
-     * @return liste de tous les chemins topologiques possibles
+     * @return liste des k plus courts chemins topologique
      */
     public List<List<String>> trieTopologiqueOptimal(int k) {
         TreeMap<String, Integer> degreEntrant = this.getDegreEntrant();
@@ -288,15 +289,24 @@ public class GrapheOriente {
 
         retourTopologique(degreEntrant, sources, cheminActuel, tousLesChemins);
 
-        // Optionnel: limiter à k chemins et/ou trier par longueur
-        if (k > 0 && tousLesChemins.size() > k) {
-            // Trier par longueur du chemin (plus court en premier)
-            tousLesChemins.sort((chemin1, chemin2) ->
-                    Integer.compare(longeurChemin(chemin1), longeurChemin(chemin2)));
-            return tousLesChemins.subList(0, k);
+        Map<List<String>, List<String>> cheminsUniques = new LinkedHashMap<>();
+        //trier en fonction de la longeur du chemin
+        tousLesChemins.sort((chemin1, chemin2) ->
+                Integer.compare(longeurChemin(chemin1), longeurChemin(chemin2)));
+
+        for (List<String> l : tousLesChemins) {
+            List<String> cheminTransforme = Scenario.getCheminToString(l);
+
+            if (!cheminsUniques.containsKey(cheminTransforme)){
+                cheminsUniques.put(cheminTransforme, l);
+
+                if (cheminsUniques.size() >= k) {
+                    break;
+                }
+            }
         }
 
-        return tousLesChemins;
+        return new ArrayList<>(cheminsUniques.values());
     }
 
     /**

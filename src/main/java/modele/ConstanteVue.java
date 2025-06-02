@@ -22,7 +22,7 @@ public class ConstanteVue {
 
     private static List<Integer> nbChemins() {
         List<Integer> nbChemins = new ArrayList<>();
-        for (int i = 1; i < 11; i++){
+        for (int i = 1; i < 6; i++){
             nbChemins.add(i);
         }
         return nbChemins;

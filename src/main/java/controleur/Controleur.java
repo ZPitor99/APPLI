@@ -45,16 +45,18 @@ public class Controleur implements EventHandler {
                     StringBuilder cheminsOptimaux = new StringBuilder();
                     for (int i = 0; i < nbChemin; i++) {
                         List<String> cheminAffiche = sc.getTrieTopologiqueOptimal().get(i);
+                        cheminsOptimaux.append("Vélizy, ");
                         cheminsOptimaux.append(cheminAffiche.toString().substring(1, cheminAffiche.toString().length() - 1));
+                        cheminsOptimaux.append(", Vélizy");
                         cheminsOptimaux.append("\n");
                         int ibis = i+1;
-                        cheminsOptimaux.append(" Longeur du chemin ").append(ibis).append(" en kilomètre: ")
-                                .append(sc.getTrieTopologiqueOptimalLongueur().get(i)).append(System.lineSeparator());
+                        cheminsOptimaux.append("Longeur du chemin ").append(ibis).append(" en kilomètre: ")
+                                .append(sc.getTrieTopologiqueOptimalLongueur().get(i)).append("\n").append("\n");
                     }
                     HBoxRoot.getAffichageOptiGestion().majCheminOptimal(cheminsOptimaux.toString());
 
                 } else {
-                    HBoxRoot.getAffichageOptiGestion().majCheminOptimal("Donnée non renseignées");
+                    HBoxRoot.getAffichageOptiGestion().majCheminOptimal("Données non renseignées");
                 }
                 HBoxRoot.getAffichageChemin().majCheminSimple("Vélizy, " +
                         sc.getTrieTopologiqueSimple().toString().substring(1, sc.getTrieTopologiqueSimple().toString().length() - 1)
