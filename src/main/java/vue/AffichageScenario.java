@@ -23,13 +23,13 @@ public class AffichageScenario extends VBox {
         TableColumn<ScenarioTableItem, String> scenarioAcheteurs = new TableColumn<>("Acheteurs");
 
         // Définir les largeurs des colonnes
-        scenarioVendeurs.setPrefWidth(160);
-        scenarioVendeurs.setMinWidth(160);
-        scenarioVendeurs.setMaxWidth(160);
+        scenarioVendeurs.setPrefWidth(150);
+        scenarioVendeurs.setMinWidth(150);
+        scenarioVendeurs.setMaxWidth(150);
 
-        scenarioAcheteurs.setPrefWidth(160);
-        scenarioAcheteurs.setMinWidth(160);
-        scenarioAcheteurs.setMaxWidth(160);
+        scenarioAcheteurs.setPrefWidth(150);
+        scenarioAcheteurs.setMinWidth(150);
+        scenarioAcheteurs.setMaxWidth(150);
 
         //Place des colonnes fixe, trie possible → praticité
         scenarioVendeurs.setCellValueFactory(new PropertyValueFactory<>("vendeur"));
@@ -45,7 +45,7 @@ public class AffichageScenario extends VBox {
 
         // Ajout et affichage
         tableDuScenarios.getColumns().addAll(scenarioVendeurs, scenarioAcheteurs);
-        tableDuScenarios.setPrefSize(320, 200);
+        tableDuScenarios.setPrefSize(350, 200);
         tableDuScenarios.setEditable(false);
         this.getChildren().addAll(tableDuScenarios);
     }

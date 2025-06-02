@@ -17,6 +17,7 @@ public class HBoxRoot extends VBox {
     private static Controleur controleur = new Controleur();
     private static AffichageScenario affichageScenario = new AffichageScenario();
     private static AffichageChemin affichageChemin = new AffichageChemin();
+    private static AffichageOptiGestion affichageOptiGestion = new AffichageOptiGestion();
 
     public HBoxRoot() {
         super();
@@ -44,7 +45,7 @@ public class HBoxRoot extends VBox {
         HBox main = new HBox(20);
         main.setSpacing(40);
         main.setPrefSize(500, 600);
-        main.getChildren().addAll(affichageScenario, affichageChemin);
+        main.getChildren().addAll(affichageScenario, affichageChemin, affichageOptiGestion);
         this.getChildren().add(main);
     }
 
@@ -58,5 +59,9 @@ public class HBoxRoot extends VBox {
 
     public static AffichageChemin getAffichageChemin() {
         return affichageChemin;
+    }
+
+    public static AffichageOptiGestion getAffichageOptiGestion() {
+        return affichageOptiGestion;
     }
 }

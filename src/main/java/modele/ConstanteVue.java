@@ -8,6 +8,7 @@ import java.util.Objects;
 public class ConstanteVue {
 
     public static final List<String> LIST_NOM_SCENARIO = nomScenario();
+    public static final List<Integer> LIST_NB_CHEMINS = nbChemins();
 
     private ConstanteVue() {}
 
@@ -17,6 +18,14 @@ public class ConstanteVue {
             nomScenario.add(fichierScenario.getName());
         }
         return nomScenario;
+    }
+
+    private static List<Integer> nbChemins() {
+        List<Integer> nbChemins = new ArrayList<>();
+        for (int i = 1; i < 11; i++){
+            nbChemins.add(i);
+        }
+        return nbChemins;
     }
 
 

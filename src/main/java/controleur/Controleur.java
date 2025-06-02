@@ -7,23 +7,24 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioMenuItem;
 import javafx.stage.WindowEvent;
 import modele.GrapheOriente;
 import modele.Scenario;
 import modele.ScenarioTableItem;
-import vue.AffichageChemin;
 import vue.HBoxRoot;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 
 public class Controleur implements EventHandler {
     @Override
     public void handle(Event event) {
-        if (event instanceof ActionEvent && event.getSource() instanceof RadioMenuItem) {
+        if (event instanceof ActionEvent && event.getSource() instanceof RadioMenuItem){
             RadioMenuItem menuItem = (RadioMenuItem) event.getSource();
             String nomFichier = (String) menuItem.getUserData();
             chargerScenario(nomFichier);
@@ -37,22 +38,35 @@ public class Controleur implements EventHandler {
                 GrapheOriente g = new GrapheOriente(sc.getVendeurListDouble(), sc.getAcheteurListDouble());
                 sc.setTrieTopologiqueSimple(g.trieTopologique());
                 sc.setTrieTopologiqueGlouton(g.trieTopologiqueGlouton());
-                if (Integer.valueOf(nomScenario.substring(nomScenario.length()-1)) < 4) {
+                if (Integer.valueOf(nomScenario.substring(nomScenario.length() - 1)) < 4) {
                     sc.setTrieTopologiqueOptimal(g.trieTopologiqueOptimal(10));
-                    HBoxRoot.getAffichageChemin().majCheminOptimal(sc.getTrieTopologiqueOptimal() + "\n" +
-                            "Distance de parcours en kilomètre: " + sc.getTrieTopologiqueOptimalLongueur());
+                    Integer nbChemin = HBoxRoot.getAffichageOptiGestion().cbNbCheminOptimal.getValue();
+
+                    StringBuilder cheminsOptimaux = new StringBuilder();
+                    for (int i = 0; i < nbChemin; i++) {
+                        List<String> cheminAffiche = sc.getTrieTopologiqueOptimal().get(i);
+                        cheminsOptimaux.append(cheminAffiche.toString().substring(1, cheminAffiche.toString().length() - 1));
+                        cheminsOptimaux.append("\n");
+                        int ibis = i+1;
+                        cheminsOptimaux.append(" Longeur du chemin ").append(ibis).append(" en kilomètre: ")
+                                .append(sc.getTrieTopologiqueOptimalLongueur().get(i)).append(System.lineSeparator());
+                    }
+                    HBoxRoot.getAffichageOptiGestion().majCheminOptimal(cheminsOptimaux.toString());
+
+                } else {
+                    HBoxRoot.getAffichageOptiGestion().majCheminOptimal("Donnée non renseignées");
                 }
-                else {
-                    HBoxRoot.getAffichageChemin().majCheminOptimal("Donnée non renseignées");
-                }
-                HBoxRoot.getAffichageChemin().majCheminSimple(sc.getTrieTopologiqueSimple().toString() + "\n"
-                        + "Distance de parcours en kilomètre: " + sc.getTrieTopologiqueSimpleLongueur().toString());
-                HBoxRoot.getAffichageChemin().majCheminHeuristique(sc.getTrieTopologiqueGlouton().toString() + "\n"
-                        + "Distance de parcours en kilomètre: " + sc.getTrieTopologiqueGloutonLongueur().toString());
+                HBoxRoot.getAffichageChemin().majCheminSimple("Vélizy, " +
+                        sc.getTrieTopologiqueSimple().toString().substring(1, sc.getTrieTopologiqueSimple().toString().length() - 1)
+                        + ", Vélizy" + "\n\n" + "Distance de parcours en kilomètre: " +
+                        sc.getTrieTopologiqueSimpleLongueur().toString());
+                HBoxRoot.getAffichageChemin().majCheminHeuristique("Vélizy, " +
+                        sc.getTrieTopologiqueGlouton().toString().substring(1, sc.getTrieTopologiqueGlouton().toString().length() - 1)
+                        + ", Vélizy" + "\n\n" + "Distance de parcours en kilomètre: " +
+                        sc.getTrieTopologiqueGloutonLongueur().toString());
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
-
         }
     }
 
@@ -113,23 +127,16 @@ public class Controleur implements EventHandler {
         if (result.isEmpty() || result.get() == ButtonType.NO) {
             event.consume();
         }
-
-
     }
 
     /**
-     *Traite la string pour changer les espaces en _ et ajouté .txt en fin de string
+     * Traite la string pour changer les espaces en _ et ajouté .txt en fin de string
      *
      * @param nomScenario Une chaine de character avec des espaces
      * @return Une chaine de character pour être un nom de fichier.txt
      */
-    private String toNomFichier(String nomScenario){
-        System.out.println(nomScenario);
-        StringBuilder nomFichier = new StringBuilder();
-
-        nomFichier.append(nomScenario.substring(1).replace(" ", "_"));
-        nomFichier.append(".txt");
-        System.out.println(nomFichier);
-        return nomFichier.toString();
+    private String toNomFichier(String nomScenario) {
+        return nomScenario.substring(1).replace(" ", "_") +
+                ".txt";
     }
 }
