@@ -104,24 +104,29 @@ public class Scenario {
 
     /**
      * Transforme un chemin de string avec un caractère supplémentaire en un chemin de ville
-     * sans caractère supplémentaire et en fusionnant en un deux villes consécutives avec caractère supplémentaire
+     * sans caractère supplémentaire et en fusionnant en une seule, deux strings consécutive avec caractère supplémentaire
      *
-     * @param chemin Un chemin de ville avec des villes+ et villes-
-     * @return la liste des villes transformées
+     * @param chemin Une suite de string dont chaque string possède à la fin d'elle un caractère à supprimer
+     * @return la liste des chaines de characters transformé
      */
     public static ArrayList<String> getCheminToString(List<String> chemin) {
+        if (chemin == null || chemin.isEmpty()) {
+            return null;
+        }
         ArrayList<String> cheminVilles = new ArrayList<>();
         cheminVilles.add(chemin.getFirst().substring(0, chemin.getFirst().length() - 1));
-        for (int i = 1; i < chemin.size(); i++) {
-            if (!cheminVilles.getLast().equals(chemin.get(i).substring(0, chemin.get(i).length() - 1))) {
-                cheminVilles.add(chemin.get(i).substring(0, chemin.get(i).length() - 1));
+        if (chemin.size() > 1) {
+            for (int i = 1; i < chemin.size(); i++) {
+                if (!cheminVilles.getLast().equals(chemin.get(i).substring(0, chemin.get(i).length() - 1))) {
+                    cheminVilles.add(chemin.get(i).substring(0, chemin.get(i).length() - 1));
+                }
             }
         }
         return cheminVilles;
     }
 
     /**
-     * Donne à partir d'une liste de la liste des villes dans les quel se trouvent chacun des membres de la liste
+     * Donne à partir d'une liste de la liste des villes dans lesquelles se trouvent chacun des membres de la liste
      * Exemple : Transforme [Bulbizarre, Herbizarre, Florizarre, Salamèche]
      * En : [Brest+, Perpignan+, Brest+, Lille+] si mettrePlus est à true
      * Sinon en : [Brest-, Perpignan-, Brest-, Lille-]

@@ -5,12 +5,14 @@ import java.io.IOException;
 
 public class ClientModele {
     public static void main(String[] args) throws IOException {
-        Scenario sc0 = new Scenario(new File("scenario" + File.separator + "scenario_3.txt"));
+        Scenario sc0 = new Scenario(new File("scenario" + File.separator + "scenario_1.txt"));
         sc0.setListDouble();
         GrapheOriente g = new GrapheOriente(sc0.getVendeurListDouble(), sc0.getAcheteurListDouble());
         sc0.setTrieTopologiqueSimple(g.trieTopologique());
         sc0.setTrieTopologiqueGlouton(g.trieTopologiqueGlouton());
         sc0.setTrieTopologiqueOptimal(g.trieTopologiqueOptimal(5));
+        System.out.println(sc0.trieTopologiqueGlouton);
+        System.out.println(sc0.trieTopologiqueGloutonLongueur);
         System.out.println(sc0.trieTopologiqueOptimal + "\n" + sc0.trieTopologiqueOptimalLongueur);
     }
 }
