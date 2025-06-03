@@ -302,7 +302,7 @@ public class GrapheOriente {
         for (List<String> l : tousLesChemins) {
             List<String> cheminTransforme = Scenario.getCheminToString(l);
 
-            if (!cheminsUniques.containsKey(cheminTransforme)){
+            if (! cheminsUniques.containsKey(cheminTransforme)) {
                 cheminsUniques.put(cheminTransforme, l);
 
                 if (cheminsUniques.size() >= k) {

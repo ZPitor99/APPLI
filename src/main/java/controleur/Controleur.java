@@ -5,14 +5,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import modele.GrapheOriente;
 import modele.Scenario;
 import modele.ScenarioTableItem;
+import vue.DialogueAjouterTransaction;
 import vue.HBoxRoot;
 
 import java.io.File;
@@ -33,7 +32,8 @@ public class Controleur implements EventHandler {
 
             File scFile = new File("scenario" + File.separator + toNomFichier(nomScenario));
             try {
-                Scenario sc = new Scenario(scFile);
+                HBoxRoot.setScenarioActuel(new Scenario(scFile));
+                Scenario sc = HBoxRoot.getScenarioActuel();
                 sc.setListDouble();
                 GrapheOriente g = new GrapheOriente(sc.getVendeurListDouble(), sc.getAcheteurListDouble());
                 sc.setTrieTopologiqueSimple(g.trieTopologique());
@@ -116,7 +116,7 @@ public class Controleur implements EventHandler {
     }
 
     /**
-     * Affiche une fenetre de confirmation avant de quitter l'application
+     * Affiche une fenêtre de confirmation avant de quitter l'application
      *
      * @param event événement
      */
@@ -155,6 +155,8 @@ public class Controleur implements EventHandler {
 
     /**
      * Crée un nouveau scénario et affiche un message de confirmation
+     *
+     * @param event événement qui déclenche la méthode
      */
     public void creerNouveauScenario(ActionEvent event) {
         try {
@@ -177,5 +179,25 @@ public class Controleur implements EventHandler {
 
             alert.showAndWait();
         }
+    }
+
+    /**
+     * Ouvre une fenêtre de dialogue pour ajouter une transaction et l'ajoute au scénario actuel
+     *
+     * @param event événement qui déclenche la méthode
+     */
+    public void ajouterTransaction(ActionEvent event) {
+        // Vérifier qu'un scénario est sélectionné
+        if (HBoxRoot.getScenarioActuel() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Aucun scénario sélectionné");
+            alert.setHeaderText("Impossible d'ajouter une transaction");
+            alert.setContentText("Veuillez d'abord sélectionner un scénario.");
+            alert.showAndWait();
+            return;
+        }
+
+        Stage parentStage = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
+        DialogueAjouterTransaction dialogue = new DialogueAjouterTransaction(parentStage);
     }
 }

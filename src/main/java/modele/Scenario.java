@@ -101,7 +101,7 @@ public class Scenario {
     public List<List<String>> getTrieTopologiqueOptimal() {
         ArrayList<List<String>> trieTopologiqueOptimalVille = new ArrayList<>();
         for (List<String> list : trieTopologiqueOptimal) {
-            if (!list.isEmpty())
+            if (! list.isEmpty())
                 trieTopologiqueOptimalVille.add(getCheminToString(list));
         }
         return trieTopologiqueOptimalVille;
@@ -275,6 +275,14 @@ public class Scenario {
         }
     }
 
+    /**
+     * Creer un nouveau scénario vierge dans le dossier des scénarios
+     * Gère le nommage du fichier par une incrémentation du numéro de scénario maximal trouvé dans le dossier
+     * des scénarios
+     *
+     * @return Le nom du fichier créé
+     * @throws IOException
+     */
     public static String creerScenario() throws IOException {
         String dossier = "scenario";
         File dossierFile = new File(dossier);
@@ -291,6 +299,13 @@ public class Scenario {
         }
     }
 
+    /**
+     * Donne le numéro maximal dans le nom des fichiers dans le dossier trouvé en paramètre
+     * Prend le numéro en deuxième position par un parcours du nom du fichier par séparateur "_" et "."
+     *
+     * @param dossier nom du dossier dans lequel chercher
+     * @return le numéro maximal trouvé dans le nom des fichiers
+     */
     private static int trouverNumScenarioMax(File dossier) {
         int max = 0;
 

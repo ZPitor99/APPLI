@@ -19,6 +19,7 @@ public class HBoxRoot extends VBox {
     private static AffichageChemin affichageChemin = new AffichageChemin();
     private static AffichageOptiGestion affichageOptiGestion = new AffichageOptiGestion();
 
+    private static Scenario scenarioActuel = null;
     public static ToggleGroup groupeScenario = new ToggleGroup();
     public static Menu menuScenario = new Menu("_Scenario");
 
@@ -50,6 +51,7 @@ public class HBoxRoot extends VBox {
         MenuItem annulerTransaction = new MenuItem("_Annuler Transaction");
         ajouterTransaction.setMnemonicParsing(true);
         annulerTransaction.setMnemonicParsing(true);
+        //ajouterTransaction.setOnAction(controleur::ajouterVente);
         menuGestion.getItems().addAll(ajouterTransaction, annulerTransaction);
         menuBar.getMenus().add(menuGestion);
 
@@ -86,5 +88,13 @@ public class HBoxRoot extends VBox {
 
     public static AffichageOptiGestion getAffichageOptiGestion() {
         return affichageOptiGestion;
+    }
+
+    public static Scenario getScenarioActuel() {
+        return scenarioActuel;
+    }
+
+    public static void setScenarioActuel(Scenario scenarioActuel) {
+        HBoxRoot.scenarioActuel = scenarioActuel;
     }
 }
