@@ -51,7 +51,7 @@ public class HBoxRoot extends VBox {
         MenuItem annulerTransaction = new MenuItem("_Annuler Transaction");
         ajouterTransaction.setMnemonicParsing(true);
         annulerTransaction.setMnemonicParsing(true);
-        //ajouterTransaction.setOnAction(controleur::ajouterVente);
+        ajouterTransaction.setOnAction(controleur::ajouterTransaction);
         menuGestion.getItems().addAll(ajouterTransaction, annulerTransaction);
         menuBar.getMenus().add(menuGestion);
 

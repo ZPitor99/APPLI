@@ -31,55 +31,59 @@ public class Controleur implements EventHandler {
             String nomScenario = menuItem.getText();
 
             File scFile = new File("scenario" + File.separator + toNomFichier(nomScenario));
-            try {
-                HBoxRoot.setScenarioActuel(new Scenario(scFile));
-                Scenario sc = HBoxRoot.getScenarioActuel();
-                sc.setListDouble();
-                GrapheOriente g = new GrapheOriente(sc.getVendeurListDouble(), sc.getAcheteurListDouble());
-                sc.setTrieTopologiqueSimple(g.trieTopologique());
-                sc.setTrieTopologiqueGlouton(g.trieTopologiqueGlouton());
-                int numsc = Integer.parseInt(nomScenario.substring(nomScenario.length() - 1));
-                if (numsc < 4 || numsc > 8) {
-                    sc.setTrieTopologiqueOptimal(g.trieTopologiqueOptimal(10));
-                    Integer nbChemin = HBoxRoot.getAffichageOptiGestion().cbNbCheminOptimal.getValue();
-                    if (sc.getTrieTopologiqueOptimal().isEmpty())
-                        HBoxRoot.getAffichageOptiGestion().majCheminOptimal("Pas de chemins");
-                    else {
-                        StringBuilder cheminsOptimaux = new StringBuilder();
-                        for (int i = 0; i < nbChemin; i++) {
-                            List<String> cheminAffiche = sc.getTrieTopologiqueOptimal().get(i);
-                            cheminsOptimaux.append("Vélizy, ");
-                            cheminsOptimaux.append(cheminAffiche.toString().substring(1, cheminAffiche.toString().length() - 1));
-                            cheminsOptimaux.append(", Vélizy");
-                            cheminsOptimaux.append("\n");
-                            int ibis = i + 1;
-                            cheminsOptimaux.append("Longeur du chemin ").append(ibis).append(" en kilomètre: ")
-                                    .append(sc.getTrieTopologiqueOptimalLongueur().get(i)).append("\n").append("\n");
-                        }
-                        HBoxRoot.getAffichageOptiGestion().majCheminOptimal(cheminsOptimaux.toString());
+            majChemins(scFile, nomScenario);
+        }
+    }
+
+    private static void majChemins(File scFile, String nomScenario) {
+        try {
+            HBoxRoot.setScenarioActuel(new Scenario(scFile));
+            Scenario sc = HBoxRoot.getScenarioActuel();
+            sc.setListDouble();
+            GrapheOriente g = new GrapheOriente(sc.getVendeurListDouble(), sc.getAcheteurListDouble());
+            sc.setTrieTopologiqueSimple(g.trieTopologique());
+            sc.setTrieTopologiqueGlouton(g.trieTopologiqueGlouton());
+            int numsc = Integer.parseInt(nomScenario.substring(nomScenario.length() - 1));
+            if (numsc < 4 || numsc > 8) {
+                sc.setTrieTopologiqueOptimal(g.trieTopologiqueOptimal(10));
+                Integer nbChemin = HBoxRoot.getAffichageOptiGestion().cbNbCheminOptimal.getValue();
+                if (sc.getTrieTopologiqueOptimal().isEmpty())
+                    HBoxRoot.getAffichageOptiGestion().majCheminOptimal("Pas de chemins");
+                else {
+                    StringBuilder cheminsOptimaux = new StringBuilder();
+                    for (int i = 0; i < nbChemin; i++) {
+                        List<String> cheminAffiche = sc.getTrieTopologiqueOptimal().get(i);
+                        cheminsOptimaux.append("Vélizy, ");
+                        cheminsOptimaux.append(cheminAffiche.toString().substring(1, cheminAffiche.toString().length() - 1));
+                        cheminsOptimaux.append(", Vélizy");
+                        cheminsOptimaux.append("\n");
+                        int ibis = i + 1;
+                        cheminsOptimaux.append("Longeur du chemin ").append(ibis).append(" en kilomètre: ")
+                                .append(sc.getTrieTopologiqueOptimalLongueur().get(i)).append("\n").append("\n");
                     }
-                } else {
-                    HBoxRoot.getAffichageOptiGestion().majCheminOptimal("Données non renseignées");
+                    HBoxRoot.getAffichageOptiGestion().majCheminOptimal(cheminsOptimaux.toString());
                 }
-                if (!sc.getTrieTopologiqueSimple().isEmpty()) {
-                    HBoxRoot.getAffichageChemin().majCheminSimple("Vélizy, " +
-                            sc.getTrieTopologiqueSimple().toString().substring(1, sc.getTrieTopologiqueSimple().toString().length() - 1)
-                            + ", Vélizy" + "\n\n" + "Distance de parcours en kilomètre: " +
-                            sc.getTrieTopologiqueSimpleLongueur().toString());
-                }
-                else
-                    HBoxRoot.getAffichageChemin().majCheminSimple("Pas de chemins");
-                if (!sc.getTrieTopologiqueGlouton().isEmpty()) {
-                    HBoxRoot.getAffichageChemin().majCheminHeuristique("Vélizy, " +
-                            sc.getTrieTopologiqueGlouton().toString().substring(1, sc.getTrieTopologiqueGlouton().toString().length() - 1)
-                            + ", Vélizy" + "\n\n" + "Distance de parcours en kilomètre: " +
-                            sc.getTrieTopologiqueGloutonLongueur().toString());
-                }
-                else
-                    HBoxRoot.getAffichageChemin().majCheminHeuristique("Pas de chemins");
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
+            } else {
+                HBoxRoot.getAffichageOptiGestion().majCheminOptimal("Données non renseignées");
             }
+            if (!sc.getTrieTopologiqueSimple().isEmpty()) {
+                HBoxRoot.getAffichageChemin().majCheminSimple("Vélizy, " +
+                        sc.getTrieTopologiqueSimple().toString().substring(1, sc.getTrieTopologiqueSimple().toString().length() - 1)
+                        + ", Vélizy" + "\n\n" + "Distance de parcours en kilomètre: " +
+                        sc.getTrieTopologiqueSimpleLongueur().toString());
+            }
+            else
+                HBoxRoot.getAffichageChemin().majCheminSimple("Pas de chemins");
+            if (!sc.getTrieTopologiqueGlouton().isEmpty()) {
+                HBoxRoot.getAffichageChemin().majCheminHeuristique("Vélizy, " +
+                        sc.getTrieTopologiqueGlouton().toString().substring(1, sc.getTrieTopologiqueGlouton().toString().length() - 1)
+                        + ", Vélizy" + "\n\n" + "Distance de parcours en kilomètre: " +
+                        sc.getTrieTopologiqueGloutonLongueur().toString());
+            }
+            else
+                HBoxRoot.getAffichageChemin().majCheminHeuristique("Pas de chemins");
+        } catch (FileNotFoundException e) {
+            System.err.println("Erreur lors du calcul des chemins : " + e.getMessage());
         }
     }
 
@@ -88,7 +92,7 @@ public class Controleur implements EventHandler {
      *
      * @param nomFichier Le nom du fichier de scénario à charger
      */
-    private void chargerScenario(String nomFichier) {
+        private void chargerScenario(String nomFichier) {
         try {
             File fichierScenario = new File("scenario" + File.separator + nomFichier);
             Scenario scenario = new Scenario(fichierScenario);
@@ -111,8 +115,19 @@ public class Controleur implements EventHandler {
             alert.setTitle("Erreur de chargement");
             alert.setHeaderText("Impossible de charger le scénario");
             alert.setContentText("Le fichier " + nomFichier + " n'a pas pu être trouvé ou lu.");
+
+            appliquerCSS(alert);
+
             alert.showAndWait();
         }
+    }
+
+    private static void appliquerCSS(Alert alert) {
+        alert.getDialogPane().setId("alert-dialog");
+        alert.getDialogPane().lookup(".header-panel").setId("alert-title");
+        alert.getDialogPane().lookup(".content.label").setId("alert-content");
+        File css = new File("css" + File.separator + "style.css");
+        alert.getDialogPane().getStylesheets().add(css.toURI().toString());
     }
 
     /**
@@ -127,11 +142,7 @@ public class Controleur implements EventHandler {
         alert.setContentText("Toutes les données non sauvegardées seront perdues.");
 
         //CSS et ID
-        alert.getDialogPane().setId("alert-dialog");
-        alert.getDialogPane().lookup(".header-panel").setId("alert-title");
-        alert.getDialogPane().lookup(".content.label").setId("alert-content");
-        File css = new File("css" + File.separator + "style.css");
-        alert.getDialogPane().getStylesheets().add(css.toURI().toString());
+        appliquerCSS(alert);
 
         alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
 
@@ -177,6 +188,8 @@ public class Controleur implements EventHandler {
             alert.setHeaderText("Impossible de créer le nouveau scénario");
             alert.setContentText("Erreur : " + e.getMessage());
 
+            appliquerCSS(alert);
+
             alert.showAndWait();
         }
     }
@@ -186,18 +199,46 @@ public class Controleur implements EventHandler {
      *
      * @param event événement qui déclenche la méthode
      */
-    public void ajouterTransaction(ActionEvent event) {
+    public void ajouterTransaction(ActionEvent event){
         // Vérifier qu'un scénario est sélectionné
         if (HBoxRoot.getScenarioActuel() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Aucun scénario sélectionné");
             alert.setHeaderText("Impossible d'ajouter une transaction");
             alert.setContentText("Veuillez d'abord sélectionner un scénario.");
+
+            appliquerCSS(alert);
+
             alert.showAndWait();
             return;
         }
 
         Stage parentStage = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
         DialogueAjouterTransaction dialogue = new DialogueAjouterTransaction(parentStage);
+        String[] resultat = dialogue.afficherDialogue();
+
+        if (resultat != null){
+            try {
+                String vendeur = resultat[0];
+                String acheteur = resultat[1];
+
+                HBoxRoot.getScenarioActuel().ajouterVente(vendeur, acheteur);
+                Scenario scenario = HBoxRoot.getScenarioActuel();
+                String nomFichier = scenario.fichierScenario.getName();
+                chargerScenario(nomFichier);
+                File scFile = new File("scenario" + File.separator + toNomFichier(nomFichier));
+                majChemins(scFile, nomFichier);
+            }
+            catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText("Impossible d'ajouter la transaction");
+                alert.setContentText("Erreur : " + e.getMessage());
+
+                appliquerCSS(alert);
+
+                alert.showAndWait();
+            }
+        }
     }
 }

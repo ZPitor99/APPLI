@@ -9,6 +9,7 @@ import modele.LectureMembre;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class DialogueAjouterTransaction extends Dialog<String[]> {
 
@@ -35,6 +36,16 @@ public class DialogueAjouterTransaction extends Dialog<String[]> {
         comboBoxAcheteur.setPromptText("Ajouter le acheteur");
         comboBoxVendeur.setPromptText("Ajouter le vendeur");
 
+        //MISE EN PAGE
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.add(new Label("Vendeur :"), 0, 0);
+        gridPane.add(comboBoxVendeur, 1, 0);
+        gridPane.add(new Label("Acheteur :"), 0, 1);
+        gridPane.add(comboBoxAcheteur, 1, 1);
+        getDialogPane().setContent(gridPane);
+
         Button okButton = (Button) getDialogPane().lookupButton(buttonOK);
         okButton.setDisable(true);
 
@@ -57,5 +68,15 @@ public class DialogueAjouterTransaction extends Dialog<String[]> {
             }
             return null;
         });
+    }
+
+    /**
+     * Affiche le dialogue et retourne le résultat
+     *
+     * @return Un tableau contenant [vendeur, acheteur] ou null si annulé
+     */
+    public String[] afficherDialogue() {
+        Optional<String[]> result = showAndWait();
+        return result.orElse(null);
     }
 }
