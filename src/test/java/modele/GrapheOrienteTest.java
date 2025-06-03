@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -87,13 +86,13 @@ class GrapheOrienteTest {
         //Test avec un g avec un degré max élevé
         List<String> depart = Arrays.asList("A", "A", "A", "A");
         List<String> arrive = Arrays.asList("B", "C", "D", "E");
-        GrapheOriente etoile  = new GrapheOriente(depart, arrive);
+        GrapheOriente etoile = new GrapheOriente(depart, arrive);
         assertEquals(4, etoile.degreMaximal(), "degreMaximal doit être de 4");
     }
 
     @Test
     @Order(2)
-    void listSommets(){
+    void listSommets() {
         assertTrue(grapheVide.listeSommets().isEmpty(), "Liste des sommets doit être vide");
 
         List<String> sommetsSimple = grapheSimple.listeSommets();
@@ -105,7 +104,7 @@ class GrapheOrienteTest {
 
     @Test
     @Order(1)
-    void testConstructeurListeVide(){
+    void testConstructeurListeVide() {
         GrapheOriente graphe = new GrapheOriente(new ArrayList<>(), new ArrayList<>());
         assertEquals(0, graphe.ordre(), "Un tel graphe doit avoir une ordre de 0");
         assertEquals(0, graphe.taille(), "Un tel graphe doit avoir une taille de 0");
@@ -114,7 +113,7 @@ class GrapheOrienteTest {
 
     @Test
     @Order(9)
-    void toStringTest(){
+    void toStringTest() {
         assertDoesNotThrow(() -> grapheSimple.toString(), "toString() ne devrait pas lancer d'exception");
 
         String str = grapheSimple.toString();

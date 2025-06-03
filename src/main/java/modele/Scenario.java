@@ -212,6 +212,9 @@ public class Scenario {
      */
     public static Integer longeurChemin(List<String> chemin) {
         Integer longueur = 0;
+        if (chemin == null || chemin.isEmpty()) {
+            return longueur;
+        }
         longueur += DISTANCES_VILLES.get(VILLES.get("Velizy")).get(VILLES.get(chemin.getFirst().substring(0, chemin.getFirst().length() - 1)));
         for (int i = 0; i < chemin.size() - 1; i++) {
             longueur += DISTANCES_VILLES.get(VILLES.get(chemin.get(i).substring(0, chemin.get(i).length() - 1))).get(VILLES.get(chemin.get(i + 1).substring(0, chemin.get(i + 1).length() - 1)));
