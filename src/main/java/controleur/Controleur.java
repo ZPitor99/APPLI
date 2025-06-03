@@ -38,7 +38,8 @@ public class Controleur implements EventHandler {
                 GrapheOriente g = new GrapheOriente(sc.getVendeurListDouble(), sc.getAcheteurListDouble());
                 sc.setTrieTopologiqueSimple(g.trieTopologique());
                 sc.setTrieTopologiqueGlouton(g.trieTopologiqueGlouton());
-                if (Integer.valueOf(nomScenario.substring(nomScenario.length() - 1)) < 4) {
+                int numsc = Integer.parseInt(nomScenario.substring(nomScenario.length() - 1));
+                if (numsc < 4 || numsc > 8) {
                     sc.setTrieTopologiqueOptimal(g.trieTopologiqueOptimal(10));
                     Integer nbChemin = HBoxRoot.getAffichageOptiGestion().cbNbCheminOptimal.getValue();
 

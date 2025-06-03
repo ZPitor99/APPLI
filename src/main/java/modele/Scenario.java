@@ -1,7 +1,6 @@
 package modele;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -26,7 +25,10 @@ public class Scenario {
     public List<List<String>> trieTopologiqueOptimal;
     public List<Integer> trieTopologiqueOptimalLongueur;
 
+    public File fichierScenario;
+
     public Scenario(File fichier) throws FileNotFoundException {
+        this.fichierScenario = fichier;
         Scanner scanner = new Scanner(fichier);
         Scanner scannerLine;
 
@@ -117,7 +119,7 @@ public class Scenario {
         cheminVilles.add(chemin.getFirst().substring(0, chemin.getFirst().length() - 1));
         if (chemin.size() > 1) {
             for (int i = 1; i < chemin.size(); i++) {
-                if (!cheminVilles.getLast().equals(chemin.get(i).substring(0, chemin.get(i).length() - 1))) {
+                if (! cheminVilles.getLast().equals(chemin.get(i).substring(0, chemin.get(i).length() - 1))) {
                     cheminVilles.add(chemin.get(i).substring(0, chemin.get(i).length() - 1));
                 }
             }
@@ -221,5 +223,95 @@ public class Scenario {
         }
         longueur += DISTANCES_VILLES.get(VILLES.get(chemin.getLast().substring(0, chemin.getLast().length() - 1))).get(VILLES.get("Velizy"));
         return longueur;
+    }
+
+    /**
+     * Ajoute une nouvelle vente au scénario courant et sauvegarde dans le fichier
+     *
+     * @param vendeur  Le nom du Pokémon vendeur
+     * @param acheteur Le nom du Pokémon acheteur
+     * @throws IOException si une erreur survient lors de l'écriture dans le fichier
+     */
+    public void ajouterVente(String vendeur, String acheteur) throws IOException {
+        vendeurList.add(vendeur);
+        acheteurList.add(acheteur);
+        sauvegarderScenario();
+    }
+
+    /**
+     * Supprime une vente à un numéro de ligne spécifique et sauvegarde dans le fichier
+     *
+     * @param numeroLigne Le numéro de la ligne à supprimer (commence à 1)
+     * @throws IndexOutOfBoundsException si le numéro de ligne est invalide
+     * @throws IOException               si une erreur survient lors de l'écriture dans le fichier
+     */
+    public void supprimerVente(int numeroLigne) throws IOException {
+        if (numeroLigne < 1 || numeroLigne >= vendeurList.size()) {
+            throw new IndexOutOfBoundsException("Le numéro de ligne " + numeroLigne + " est invalide");
+        }
+        vendeurList.remove(numeroLigne - 1);
+        acheteurList.remove(numeroLigne - 1);
+        sauvegarderScenario();
+    }
+
+    /**
+     * Sauvegarde le scénario courant dans le fichier
+     *
+     * @throws IOException si une erreur survient lors de l'écriture dans le fichier
+     */
+    private void sauvegarderScenario() throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fichierScenario))) {
+            for (int i = 0; i < vendeurList.size(); i++) {
+                writer.write(vendeurList.get(i) + " -> " + acheteurList.get(i));
+                writer.newLine();
+            }
+        }
+    }
+
+    public String creerScenario() throws IOException {
+        String dossier = "scenario";
+        File dossierFile = new File(dossier);
+
+        int maxNum = trouverNumScenarioMax(dossierFile);
+        maxNum++;
+
+        String nomNouveauFichier = "scenario_" + maxNum + ".txt";
+        File nouveauFile = new File(dossier + File.separator + nomNouveauFichier);
+        if (nouveauFile.createNewFile()) {
+            return nomNouveauFichier;
+        } else {
+            throw new IOException("Le nouveau fichier " + nomNouveauFichier + " est invalide");
+        }
+    }
+
+    private static int trouverNumScenarioMax(File dossier) {
+        int max = 0;
+
+        File[] files = dossier.listFiles();
+        if (files != null) {
+            for (File f : files) {
+                String nomFichier = f.getName();
+
+                Scanner scanner = new Scanner(nomFichier);
+                scanner.useDelimiter("_|\\.");
+
+                try {
+                    //Ignorer "scénario"
+                    if (scanner.hasNext()) {
+                        scanner.next();
+                    }
+                    if (scanner.hasNextInt()) {
+                        int n = scanner.nextInt();
+                        max = Math.max(max, n);
+                    }
+
+                } catch (Exception e) {
+                    System.err.println(e.getMessage() + "\nErreur pour le fichier " + nomFichier);
+                } finally {
+                    scanner.close();
+                }
+            }
+        }
+        return max;
     }
 }
