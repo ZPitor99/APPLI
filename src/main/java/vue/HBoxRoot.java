@@ -42,7 +42,8 @@ public class HBoxRoot extends VBox {
         ((RadioMenuItem) menuScenario.getItems().get(1)).setSelected(true);
         menuBar.getMenus().add(menuScenario);
 
-        MenuItem newScenario = new MenuItem("Nouveau Scenario");
+        MenuItem newScenario = new MenuItem("_Nouveau Scenario");
+        newScenario.setMnemonicParsing(true);
         newScenario.setOnAction(controleur::creerNouveauScenario);
         menuFichier.getItems().addAll(newScenario);
         menuBar.getMenus().add(menuFichier);
@@ -52,6 +53,7 @@ public class HBoxRoot extends VBox {
         ajouterTransaction.setMnemonicParsing(true);
         annulerTransaction.setMnemonicParsing(true);
         ajouterTransaction.setOnAction(controleur::ajouterTransaction);
+        annulerTransaction.setOnAction(controleur::supprimerTransaction);
         menuGestion.getItems().addAll(ajouterTransaction, annulerTransaction);
         menuBar.getMenus().add(menuGestion);
 
@@ -66,8 +68,7 @@ public class HBoxRoot extends VBox {
     }
 
     public static void setMenuScenario(String item, Menu menuScenario) {
-        RadioMenuItem menuItem = new RadioMenuItem("_" + item.replace(".txt", "").replace("_", " "));
-        menuItem.setMnemonicParsing(true);
+        RadioMenuItem menuItem = new RadioMenuItem(item.replace(".txt", "").replace("_", " "));
         menuItem.setUserData(item);
         menuScenario.getItems().add(menuItem);
         menuItem.setToggleGroup(groupeScenario);

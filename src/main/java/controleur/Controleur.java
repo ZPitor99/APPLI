@@ -12,6 +12,7 @@ import modele.GrapheOriente;
 import modele.Scenario;
 import modele.ScenarioTableItem;
 import vue.DialogueAjouterTransaction;
+import vue.DialogueSupprimerTransaction;
 import vue.HBoxRoot;
 
 import java.io.File;
@@ -43,7 +44,8 @@ public class Controleur implements EventHandler {
             GrapheOriente g = new GrapheOriente(sc.getVendeurListDouble(), sc.getAcheteurListDouble());
             sc.setTrieTopologiqueSimple(g.trieTopologique());
             sc.setTrieTopologiqueGlouton(g.trieTopologiqueGlouton());
-            int numsc = Integer.parseInt(nomScenario.substring(nomScenario.length() - 1));
+            System.out.println(toNotNomFichier(nomScenario).substring(nomScenario.indexOf(" ")+1));
+            int numsc = Integer.parseInt(toNotNomFichier(nomScenario).substring(nomScenario.indexOf(" ")+1));
             if (numsc < 4 || numsc > 8) {
                 sc.setTrieTopologiqueOptimal(g.trieTopologiqueOptimal(10));
                 Integer nbChemin = HBoxRoot.getAffichageOptiGestion().cbNbCheminOptimal.getValue();
@@ -160,8 +162,24 @@ public class Controleur implements EventHandler {
      * @return Une chaine de character pour être un nom de fichier.txt
      */
     private String toNomFichier(String nomScenario) {
-        return nomScenario.substring(1).replace(" ", "_") +
+        if (nomScenario.endsWith(".txt")) {
+            return nomScenario.replace(" ", "_");
+        }
+        return nomScenario.replace(" ", "_") +
                 ".txt";
+    }
+
+    /**
+     * Fait le contraire de toNomFichier
+     *
+     * @param nomScenario Une chaine de character avec des espaces
+     * @return Une chaine de character du nom du scénario
+     */
+    private static String toNotNomFichier(String nomScenario) {
+        if (nomScenario.endsWith(".txt")) {
+            return nomScenario.substring(0,nomScenario.length()-4).replace("_", " ");
+        }
+        return nomScenario.replace("_", " ");
     }
 
     /**
@@ -172,12 +190,14 @@ public class Controleur implements EventHandler {
     public void creerNouveauScenario(ActionEvent event) {
         try {
             String nomNouveauFichier = Scenario.creerScenario();
+            System.out.println(nomNouveauFichier);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Nouveau scénario créé");
             alert.setHeaderText("Scénario créé avec succès !");
             alert.setContentText("Le nouveau scénario a été créé sous le nom : " + nomNouveauFichier);
 
+            appliquerCSS(alert);
             HBoxRoot.setMenuScenario(nomNouveauFichier, HBoxRoot.menuScenario);
 
             alert.showAndWait();
@@ -227,7 +247,7 @@ public class Controleur implements EventHandler {
                 String nomFichier = scenario.fichierScenario.getName();
                 chargerScenario(nomFichier);
                 File scFile = new File("scenario" + File.separator + toNomFichier(nomFichier));
-                majChemins(scFile, nomFichier);
+                majChemins(scFile, toNotNomFichier(nomFichier));
             }
             catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -238,6 +258,64 @@ public class Controleur implements EventHandler {
                 appliquerCSS(alert);
 
                 alert.showAndWait();
+            }
+        }
+    }
+
+    /**
+     * Ouvre une fenêtre de dialogue pour supprimer une transaction du scénario actuel
+     *
+     * @param event événement qui déclenche la méthode
+     */
+    public void supprimerTransaction(ActionEvent event) {
+        // Vérifier qu'un scénario est sélectionné
+        if (HBoxRoot.getScenarioActuel() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Aucun scénario sélectionné");
+            alert.setHeaderText("Impossible de supprimer une transaction");
+            alert.setContentText("Veuillez d'abord sélectionner un scénario.");
+
+            appliquerCSS(alert);
+
+            alert.showAndWait();
+            return;
+        }
+
+        Scenario scenario = HBoxRoot.getScenarioActuel();
+        if (! DialogueSupprimerTransaction.aDesTransactions(scenario)) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Aucune transaction");
+            alert.setHeaderText("Aucune transaction à supprimer");
+            alert.setContentText("Le scénario actuel ne contient aucune transaction.");
+
+            appliquerCSS(alert);
+
+            alert.showAndWait();
+            return;
+        } else {
+            Stage parentStage = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
+            // Créer et afficher le dialogue
+            DialogueSupprimerTransaction dialogue = new DialogueSupprimerTransaction(parentStage, scenario);
+            Integer numeroLigne = dialogue.afficherDialogue();
+
+            if (numeroLigne != null) {
+                try {
+                    scenario.supprimerVente(numeroLigne);
+
+                    String nomFichier = scenario.fichierScenario.getName();
+                    System.out.println(nomFichier);
+                    chargerScenario(nomFichier);
+                    File scFile = new File("scenario" + File.separator + nomFichier);
+                    majChemins(scFile, nomFichier);
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Transaction supprimée");
+                    alert.setHeaderText("Transaction supprimée avec succès !");
+                    alert.setContentText("La transaction a été supprimée du scénario.");
+                    alert.showAndWait();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
