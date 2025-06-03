@@ -3,7 +3,6 @@ package vue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
@@ -15,10 +14,8 @@ import java.util.Optional;
 public class DialogueSupprimerTransaction extends Dialog<Integer> {
 
     private ListView<String> listTransaction;
-    private Scenario scenario;
 
     public DialogueSupprimerTransaction(Stage parent, Scenario scenario) {
-        this.scenario = scenario;
 
         initOwner(parent);
         // BLOQUE INTERACTION AVEC PARENT
@@ -35,7 +32,7 @@ public class DialogueSupprimerTransaction extends Dialog<Integer> {
         listTransaction.setPrefHeight(400);
 
         ObservableList<String> items = FXCollections.observableArrayList();
-        if (scenario != null && !scenario.getVendeurList().isEmpty()) {
+        if (scenario != null && ! scenario.getVendeurList().isEmpty()) {
             for (int i = 0; i < scenario.getVendeurList().size(); i++) {
                 String transaction = (i + 1) + ". " + scenario.getVendeurList().get(i) +
                         " → " + scenario.getAcheteurList().get(i);
@@ -64,7 +61,7 @@ public class DialogueSupprimerTransaction extends Dialog<Integer> {
         Button okButton = (Button) getDialogPane().lookupButton(buttonOK);
         okButton.setDisable(items.isEmpty());
 
-        if (!items.isEmpty()) {
+        if (! items.isEmpty()) {
             listTransaction.getSelectionModel().selectedItemProperty().addListener(
                     (obs, oldSelection, newSelection) -> {
                         okButton.setDisable(newSelection == null);
@@ -74,7 +71,7 @@ public class DialogueSupprimerTransaction extends Dialog<Integer> {
         }
 
         setResultConverter(dialogButton -> {
-            if (dialogButton == buttonOK && listTransaction.getSelectionModel().getSelectedIndex() != -1) {
+            if (dialogButton == buttonOK && listTransaction.getSelectionModel().getSelectedIndex() != - 1) {
                 return listTransaction.getSelectionModel().getSelectedIndex();
             }
             return null;
@@ -83,6 +80,7 @@ public class DialogueSupprimerTransaction extends Dialog<Integer> {
 
     /**
      * Affiche le dialogue et retourne le numéro de ligne à supprimer
+     *
      * @return Le numéro de ligne à supprimer (basé sur 1) ou null si annulé
      */
     public Integer afficherDialogue() {
@@ -92,10 +90,11 @@ public class DialogueSupprimerTransaction extends Dialog<Integer> {
 
     /**
      * Vérifie si le scénario a des transactions à supprimer
+     *
      * @param scenario Le scénario à vérifier
      * @return true si le scénario a des transactions, false sinon
      */
     public static boolean aDesTransactions(Scenario scenario) {
-        return scenario != null && scenario.getVendeurList() != null && !scenario.getVendeurList().isEmpty();
+        return scenario != null && scenario.getVendeurList() != null && ! scenario.getVendeurList().isEmpty();
     }
 }

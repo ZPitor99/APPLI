@@ -24,7 +24,7 @@ public class AffichageOptiGestion extends VBox {
         cbNbCheminOptimal.getSelectionModel().selectFirst();
         cbNbCheminOptimal.setId("cbNbChemin");
         cbNbCheminOptimal.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null && !newValue.equals(oldValue)) {
+            if (newValue != null && ! newValue.equals(oldValue)) {
                 cbNbCheminOptimal.addEventHandler(ActionEvent.ACTION, HBoxRoot.getControleur());
             }
         });

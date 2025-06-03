@@ -49,6 +49,7 @@ public class LectureMembre {
 
     /**
      * Accesseur du champ villeMembres : le dictionnaire VilleMembres
+     *
      * @return un dictionnaire des membres et de leur ville de résidence
      */
     public Map<String, String> getVilleMembres() {

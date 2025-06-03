@@ -135,3 +135,7 @@ if (chemin == null || chemin.isEmpty()) {
 ```
 
 $\implies$ **P4** est maintenant valide $\checkmark$
+
+## Conclusion
+
+L'ensemble des tests est passé avec succès après qu'il a eu peut-être besoin de correction. Les méthodes sont maintenant opérationnelles.

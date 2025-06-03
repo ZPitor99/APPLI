@@ -8,8 +8,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import modele.Scenario;
 
-import java.io.File;
-
 import static modele.ConstanteVue.LIST_NOM_SCENARIO;
 
 public class HBoxRoot extends VBox {

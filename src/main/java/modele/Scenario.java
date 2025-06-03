@@ -248,16 +248,16 @@ public class Scenario {
     /**
      * Supprime une vente à un numéro de ligne spécifique et sauvegarde dans le fichier
      *
-     * @param numeroLigne Le numéro de la ligne à supprimer (commence à 1)
+     * @param numeroLigne Le numéro de la ligne à supprimer (commence à 0)
      * @throws IndexOutOfBoundsException si le numéro de ligne est invalide
      * @throws IOException               si une erreur survient lors de l'écriture dans le fichier
      */
     public void supprimerVente(int numeroLigne) throws IOException {
-        if (numeroLigne < 1 || numeroLigne >= vendeurList.size()) {
+        if (numeroLigne < 0 || numeroLigne >= vendeurList.size()) {
             throw new IndexOutOfBoundsException("Le numéro de ligne " + numeroLigne + " est invalide");
         }
-        vendeurList.remove(numeroLigne - 1);
-        acheteurList.remove(numeroLigne - 1);
+        vendeurList.remove(numeroLigne);
+        acheteurList.remove(numeroLigne);
         sauvegarderScenario();
     }
 

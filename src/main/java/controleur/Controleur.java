@@ -5,7 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import modele.GrapheOriente;
@@ -25,7 +28,7 @@ import java.util.Optional;
 public class Controleur implements EventHandler {
     @Override
     public void handle(Event event) {
-        if (event instanceof ActionEvent && event.getSource() instanceof RadioMenuItem menuItem){
+        if (event instanceof ActionEvent && event.getSource() instanceof RadioMenuItem menuItem) {
             String nomFichier = (String) menuItem.getUserData();
             chargerScenario(nomFichier);
 
@@ -36,6 +39,13 @@ public class Controleur implements EventHandler {
         }
     }
 
+    /**
+     * Fait en sorte de mettre à jour les chemins sur la vue en ordant au modèle de les calculer pour les
+     * envoyer à la vue une fois fait.
+     *
+     * @param scFile      Le fichier du scénario
+     * @param nomScenario Le nom du scénario
+     */
     private static void majChemins(File scFile, String nomScenario) {
         try {
             HBoxRoot.setScenarioActuel(new Scenario(scFile));
@@ -44,10 +54,9 @@ public class Controleur implements EventHandler {
             GrapheOriente g = new GrapheOriente(sc.getVendeurListDouble(), sc.getAcheteurListDouble());
             sc.setTrieTopologiqueSimple(g.trieTopologique());
             sc.setTrieTopologiqueGlouton(g.trieTopologiqueGlouton());
-            System.out.println(toNotNomFichier(nomScenario).substring(nomScenario.indexOf(" ")+1));
-            int numsc = Integer.parseInt(toNotNomFichier(nomScenario).substring(nomScenario.indexOf(" ")+1));
+            int numsc = Integer.parseInt(nomScenario.substring(nomScenario.indexOf(" ") + 1));
             if (numsc < 4 || numsc > 8) {
-                sc.setTrieTopologiqueOptimal(g.trieTopologiqueOptimal(10));
+                sc.setTrieTopologiqueOptimal(g.trieTopologiqueOptimal(6));
                 Integer nbChemin = HBoxRoot.getAffichageOptiGestion().cbNbCheminOptimal.getValue();
                 if (sc.getTrieTopologiqueOptimal().isEmpty())
                     HBoxRoot.getAffichageOptiGestion().majCheminOptimal("Pas de chemins");
@@ -68,21 +77,19 @@ public class Controleur implements EventHandler {
             } else {
                 HBoxRoot.getAffichageOptiGestion().majCheminOptimal("Données non renseignées");
             }
-            if (!sc.getTrieTopologiqueSimple().isEmpty()) {
+            if (! sc.getTrieTopologiqueSimple().isEmpty()) {
                 HBoxRoot.getAffichageChemin().majCheminSimple("Vélizy, " +
                         sc.getTrieTopologiqueSimple().toString().substring(1, sc.getTrieTopologiqueSimple().toString().length() - 1)
                         + ", Vélizy" + "\n\n" + "Distance de parcours en kilomètre: " +
                         sc.getTrieTopologiqueSimpleLongueur().toString());
-            }
-            else
+            } else
                 HBoxRoot.getAffichageChemin().majCheminSimple("Pas de chemins");
-            if (!sc.getTrieTopologiqueGlouton().isEmpty()) {
+            if (! sc.getTrieTopologiqueGlouton().isEmpty()) {
                 HBoxRoot.getAffichageChemin().majCheminHeuristique("Vélizy, " +
                         sc.getTrieTopologiqueGlouton().toString().substring(1, sc.getTrieTopologiqueGlouton().toString().length() - 1)
                         + ", Vélizy" + "\n\n" + "Distance de parcours en kilomètre: " +
                         sc.getTrieTopologiqueGloutonLongueur().toString());
-            }
-            else
+            } else
                 HBoxRoot.getAffichageChemin().majCheminHeuristique("Pas de chemins");
         } catch (FileNotFoundException e) {
             System.err.println("Erreur lors du calcul des chemins : " + e.getMessage());
@@ -94,7 +101,7 @@ public class Controleur implements EventHandler {
      *
      * @param nomFichier Le nom du fichier de scénario à charger
      */
-        private void chargerScenario(String nomFichier) {
+    private void chargerScenario(String nomFichier) {
         try {
             File fichierScenario = new File("scenario" + File.separator + nomFichier);
             Scenario scenario = new Scenario(fichierScenario);
@@ -124,6 +131,11 @@ public class Controleur implements EventHandler {
         }
     }
 
+    /**
+     * Applique le css a l'alerte en paramètre
+     *
+     * @param alert alerte dont on veut appliquer le CSS
+     */
     private static void appliquerCSS(Alert alert) {
         alert.getDialogPane().setId("alert-dialog");
         alert.getDialogPane().lookup(".header-panel").setId("alert-title");
@@ -143,11 +155,9 @@ public class Controleur implements EventHandler {
         alert.setHeaderText("Êtes-vous certain de vouloir quitter ?");
         alert.setContentText("Toutes les données non sauvegardées seront perdues.");
 
-        //CSS et ID
         appliquerCSS(alert);
 
         alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
-
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isEmpty() || result.get() == ButtonType.NO) {
@@ -165,8 +175,7 @@ public class Controleur implements EventHandler {
         if (nomScenario.endsWith(".txt")) {
             return nomScenario.replace(" ", "_");
         }
-        return nomScenario.replace(" ", "_") +
-                ".txt";
+        return nomScenario.replace(" ", "_") + ".txt";
     }
 
     /**
@@ -177,7 +186,7 @@ public class Controleur implements EventHandler {
      */
     private static String toNotNomFichier(String nomScenario) {
         if (nomScenario.endsWith(".txt")) {
-            return nomScenario.substring(0,nomScenario.length()-4).replace("_", " ");
+            return nomScenario.substring(0, nomScenario.length() - 4).replace("_", " ");
         }
         return nomScenario.replace("_", " ");
     }
@@ -190,7 +199,6 @@ public class Controleur implements EventHandler {
     public void creerNouveauScenario(ActionEvent event) {
         try {
             String nomNouveauFichier = Scenario.creerScenario();
-            System.out.println(nomNouveauFichier);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Nouveau scénario créé");
@@ -198,6 +206,7 @@ public class Controleur implements EventHandler {
             alert.setContentText("Le nouveau scénario a été créé sous le nom : " + nomNouveauFichier);
 
             appliquerCSS(alert);
+
             HBoxRoot.setMenuScenario(nomNouveauFichier, HBoxRoot.menuScenario);
 
             alert.showAndWait();
@@ -216,11 +225,11 @@ public class Controleur implements EventHandler {
 
     /**
      * Ouvre une fenêtre de dialogue pour ajouter une transaction et l'ajoute au scénario actuel
+     * Met à jour les chemins une fois l'ajout fait
      *
      * @param event événement qui déclenche la méthode
      */
-    public void ajouterTransaction(ActionEvent event){
-        // Vérifier qu'un scénario est sélectionné
+    public void ajouterTransaction(ActionEvent event) {
         if (HBoxRoot.getScenarioActuel() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Aucun scénario sélectionné");
@@ -237,7 +246,7 @@ public class Controleur implements EventHandler {
         DialogueAjouterTransaction dialogue = new DialogueAjouterTransaction(parentStage);
         String[] resultat = dialogue.afficherDialogue();
 
-        if (resultat != null){
+        if (resultat != null) {
             try {
                 String vendeur = resultat[0];
                 String acheteur = resultat[1];
@@ -248,8 +257,7 @@ public class Controleur implements EventHandler {
                 chargerScenario(nomFichier);
                 File scFile = new File("scenario" + File.separator + toNomFichier(nomFichier));
                 majChemins(scFile, toNotNomFichier(nomFichier));
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur");
                 alert.setHeaderText("Impossible d'ajouter la transaction");
@@ -264,11 +272,11 @@ public class Controleur implements EventHandler {
 
     /**
      * Ouvre une fenêtre de dialogue pour supprimer une transaction du scénario actuel
+     * Mettre à jour les chemins à jour une fois la suppression faite
      *
      * @param event événement qui déclenche la méthode
      */
     public void supprimerTransaction(ActionEvent event) {
-        // Vérifier qu'un scénario est sélectionné
         if (HBoxRoot.getScenarioActuel() == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Aucun scénario sélectionné");
@@ -291,7 +299,6 @@ public class Controleur implements EventHandler {
             appliquerCSS(alert);
 
             alert.showAndWait();
-            return;
         } else {
             Stage parentStage = (Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow();
             // Créer et afficher le dialogue
@@ -303,16 +310,9 @@ public class Controleur implements EventHandler {
                     scenario.supprimerVente(numeroLigne);
 
                     String nomFichier = scenario.fichierScenario.getName();
-                    System.out.println(nomFichier);
                     chargerScenario(nomFichier);
                     File scFile = new File("scenario" + File.separator + nomFichier);
-                    majChemins(scFile, nomFichier);
-
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Transaction supprimée");
-                    alert.setHeaderText("Transaction supprimée avec succès !");
-                    alert.setContentText("La transaction a été supprimée du scénario.");
-                    alert.showAndWait();
+                    majChemins(scFile, toNotNomFichier(nomFichier));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

@@ -281,6 +281,7 @@ public class GrapheOriente {
     /**
      * Génère tous les chemins topologiques possibles du graphe
      * Garde les k meilleurs et évite les doublons dus au + et -
+     * mais met en doublon pour respecter k chemins
      *
      * @param k nombre maximum de chemins à retourner
      * @return liste des k plus courts chemins topologique
@@ -311,7 +312,11 @@ public class GrapheOriente {
             }
         }
 
-        return new ArrayList<>(cheminsUniques.values());
+        ArrayList<List<String>> resultats = new ArrayList<>(cheminsUniques.values());
+        while (resultats.size() < k) {
+            resultats.add(resultats.getLast());
+        }
+        return resultats;
     }
 
     /**

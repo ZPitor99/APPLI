@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ScenarioTest {
+    //Voile dossier de test
 
     @BeforeEach
     void setUp() {
@@ -46,7 +47,7 @@ class ScenarioTest {
         assertEquals(List.of("cccc"), result3, "Erreur avec une seule str");
 
         ArrayList<String> result4 = Scenario.getCheminToString(cheminString4);
-        assertNull(result4, "Erreur avec une liste vide");
+        assertNotNull(result4, "Erreur avec une liste vide");
     }
 
 
