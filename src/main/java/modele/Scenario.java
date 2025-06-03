@@ -77,6 +77,9 @@ public class Scenario {
     }
 
     public ArrayList<String> getTrieTopologiqueSimple() {
+        if (trieTopologiqueSimple == null) {
+            trieTopologiqueSimple = new ArrayList<>();
+        }
         return getCheminToString(trieTopologiqueSimple);
     }
 
@@ -85,6 +88,9 @@ public class Scenario {
     }
 
     public ArrayList<String> getTrieTopologiqueGlouton() {
+        if (trieTopologiqueGlouton == null) {
+            trieTopologiqueGlouton = new ArrayList<>();
+        }
         return getCheminToString(trieTopologiqueGlouton);
     }
 
@@ -95,7 +101,8 @@ public class Scenario {
     public List<List<String>> getTrieTopologiqueOptimal() {
         ArrayList<List<String>> trieTopologiqueOptimalVille = new ArrayList<>();
         for (List<String> list : trieTopologiqueOptimal) {
-            trieTopologiqueOptimalVille.add(getCheminToString(list));
+            if (!list.isEmpty())
+                trieTopologiqueOptimalVille.add(getCheminToString(list));
         }
         return trieTopologiqueOptimalVille;
     }
@@ -113,7 +120,7 @@ public class Scenario {
      */
     public static ArrayList<String> getCheminToString(List<String> chemin) {
         if (chemin == null || chemin.isEmpty()) {
-            return null;
+            return new ArrayList<>();
         }
         ArrayList<String> cheminVilles = new ArrayList<>();
         cheminVilles.add(chemin.getFirst().substring(0, chemin.getFirst().length() - 1));
@@ -268,7 +275,7 @@ public class Scenario {
         }
     }
 
-    public String creerScenario() throws IOException {
+    public static String creerScenario() throws IOException {
         String dossier = "scenario";
         File dossierFile = new File(dossier);
 

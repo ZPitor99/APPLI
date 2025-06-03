@@ -17,6 +17,7 @@ import vue.HBoxRoot;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,8 +25,7 @@ import java.util.Optional;
 public class Controleur implements EventHandler {
     @Override
     public void handle(Event event) {
-        if (event instanceof ActionEvent && event.getSource() instanceof RadioMenuItem){
-            RadioMenuItem menuItem = (RadioMenuItem) event.getSource();
+        if (event instanceof ActionEvent && event.getSource() instanceof RadioMenuItem menuItem){
             String nomFichier = (String) menuItem.getUserData();
             chargerScenario(nomFichier);
 
@@ -42,31 +42,41 @@ public class Controleur implements EventHandler {
                 if (numsc < 4 || numsc > 8) {
                     sc.setTrieTopologiqueOptimal(g.trieTopologiqueOptimal(10));
                     Integer nbChemin = HBoxRoot.getAffichageOptiGestion().cbNbCheminOptimal.getValue();
-
-                    StringBuilder cheminsOptimaux = new StringBuilder();
-                    for (int i = 0; i < nbChemin; i++) {
-                        List<String> cheminAffiche = sc.getTrieTopologiqueOptimal().get(i);
-                        cheminsOptimaux.append("Vélizy, ");
-                        cheminsOptimaux.append(cheminAffiche.toString().substring(1, cheminAffiche.toString().length() - 1));
-                        cheminsOptimaux.append(", Vélizy");
-                        cheminsOptimaux.append("\n");
-                        int ibis = i+1;
-                        cheminsOptimaux.append("Longeur du chemin ").append(ibis).append(" en kilomètre: ")
-                                .append(sc.getTrieTopologiqueOptimalLongueur().get(i)).append("\n").append("\n");
+                    if (sc.getTrieTopologiqueOptimal().isEmpty())
+                        HBoxRoot.getAffichageOptiGestion().majCheminOptimal("Pas de chemins");
+                    else {
+                        StringBuilder cheminsOptimaux = new StringBuilder();
+                        for (int i = 0; i < nbChemin; i++) {
+                            List<String> cheminAffiche = sc.getTrieTopologiqueOptimal().get(i);
+                            cheminsOptimaux.append("Vélizy, ");
+                            cheminsOptimaux.append(cheminAffiche.toString().substring(1, cheminAffiche.toString().length() - 1));
+                            cheminsOptimaux.append(", Vélizy");
+                            cheminsOptimaux.append("\n");
+                            int ibis = i + 1;
+                            cheminsOptimaux.append("Longeur du chemin ").append(ibis).append(" en kilomètre: ")
+                                    .append(sc.getTrieTopologiqueOptimalLongueur().get(i)).append("\n").append("\n");
+                        }
+                        HBoxRoot.getAffichageOptiGestion().majCheminOptimal(cheminsOptimaux.toString());
                     }
-                    HBoxRoot.getAffichageOptiGestion().majCheminOptimal(cheminsOptimaux.toString());
-
                 } else {
                     HBoxRoot.getAffichageOptiGestion().majCheminOptimal("Données non renseignées");
                 }
-                HBoxRoot.getAffichageChemin().majCheminSimple("Vélizy, " +
-                        sc.getTrieTopologiqueSimple().toString().substring(1, sc.getTrieTopologiqueSimple().toString().length() - 1)
-                        + ", Vélizy" + "\n\n" + "Distance de parcours en kilomètre: " +
-                        sc.getTrieTopologiqueSimpleLongueur().toString());
-                HBoxRoot.getAffichageChemin().majCheminHeuristique("Vélizy, " +
-                        sc.getTrieTopologiqueGlouton().toString().substring(1, sc.getTrieTopologiqueGlouton().toString().length() - 1)
-                        + ", Vélizy" + "\n\n" + "Distance de parcours en kilomètre: " +
-                        sc.getTrieTopologiqueGloutonLongueur().toString());
+                if (!sc.getTrieTopologiqueSimple().isEmpty()) {
+                    HBoxRoot.getAffichageChemin().majCheminSimple("Vélizy, " +
+                            sc.getTrieTopologiqueSimple().toString().substring(1, sc.getTrieTopologiqueSimple().toString().length() - 1)
+                            + ", Vélizy" + "\n\n" + "Distance de parcours en kilomètre: " +
+                            sc.getTrieTopologiqueSimpleLongueur().toString());
+                }
+                else
+                    HBoxRoot.getAffichageChemin().majCheminSimple("Pas de chemins");
+                if (!sc.getTrieTopologiqueGlouton().isEmpty()) {
+                    HBoxRoot.getAffichageChemin().majCheminHeuristique("Vélizy, " +
+                            sc.getTrieTopologiqueGlouton().toString().substring(1, sc.getTrieTopologiqueGlouton().toString().length() - 1)
+                            + ", Vélizy" + "\n\n" + "Distance de parcours en kilomètre: " +
+                            sc.getTrieTopologiqueGloutonLongueur().toString());
+                }
+                else
+                    HBoxRoot.getAffichageChemin().majCheminHeuristique("Pas de chemins");
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -141,5 +151,31 @@ public class Controleur implements EventHandler {
     private String toNomFichier(String nomScenario) {
         return nomScenario.substring(1).replace(" ", "_") +
                 ".txt";
+    }
+
+    /**
+     * Crée un nouveau scénario et affiche un message de confirmation
+     */
+    public void creerNouveauScenario(ActionEvent event) {
+        try {
+            String nomNouveauFichier = Scenario.creerScenario();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Nouveau scénario créé");
+            alert.setHeaderText("Scénario créé avec succès !");
+            alert.setContentText("Le nouveau scénario a été créé sous le nom : " + nomNouveauFichier);
+
+            HBoxRoot.setMenuScenario(nomNouveauFichier, HBoxRoot.menuScenario);
+
+            alert.showAndWait();
+
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de création");
+            alert.setHeaderText("Impossible de créer le nouveau scénario");
+            alert.setContentText("Erreur : " + e.getMessage());
+
+            alert.showAndWait();
+        }
     }
 }

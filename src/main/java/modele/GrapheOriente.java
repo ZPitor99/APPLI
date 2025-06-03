@@ -336,10 +336,10 @@ public class GrapheOriente {
             return;
         }
 
-        for (String sommetCourant : new TreeSet<>(sources)) { // Copie pour éviter ConcurrentModificationException
+        for (String sommetCourant : new TreeSet<>(sources)) {
 
 
-            //COPIES
+            //COPIES pour éviter ConcurrentModificationException
             TreeMap<String, Integer> nouveauDegreEntrant = new TreeMap<>(degreEntrant);
             TreeSet<String> nouvellesSources = new TreeSet<>(sources);
             List<String> nouveauChemin = new ArrayList<>(cheminActuel);

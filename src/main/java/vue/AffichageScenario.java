@@ -45,7 +45,7 @@ public class AffichageScenario extends VBox {
 
         // Ajout et affichage
         tableDuScenarios.getColumns().addAll(scenarioVendeurs, scenarioAcheteurs);
-        tableDuScenarios.setPrefSize(350, 200);
+        tableDuScenarios.setPrefSize(300, 200);
         tableDuScenarios.setEditable(false);
         this.getChildren().addAll(tableDuScenarios);
     }
