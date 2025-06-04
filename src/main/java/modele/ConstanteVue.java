@@ -29,7 +29,7 @@ public class ConstanteVue {
      * Créer une liste du nombre de chemins optimaux qui pourront être sélectionné
      * Permet de peupler la comboBox
      *
-     * @return Une liste d'entier de 1 à 6
+     * @return Une liste d'entier de 1 à 5
      */
     private static List<Integer> nbChemins() {
         List<Integer> nbChemins = new ArrayList<>();
